@@ -1,0 +1,9 @@
+Using Salesforce Features with Apex: 
+    Actions: 
+    Create actions -  let users create records
+    Custom actions - invoke Lightning components, flows, Visualforce pages, or canvas apps with  custom functionality    
+    global custom actions - for tasks that don’t require users to use records that have a relationship to a specific object.
+    Object-specific custom actions - let users interact with or create records that have a relationship to an object record
+    create, Log a Call, and custom actions, you can create either object-specific actions or global actions.
+    Update actions must be object-specific.
+    
