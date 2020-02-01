@@ -6,4 +6,26 @@ Using Salesforce Features with Apex:
     Object-specific custom actions - let users interact with or create records that have a relationship to an object record
     create, Log a Call, and custom actions, you can create either object-specific actions or global actions.
     Update actions must be object-specific.
-    
+
+    Create Global Quick Actions:
+    Global create actions enable users to create object records, but the new record has (no direct relationship) with other records.
+    Global quick actions (aren’t context-aware), so fields can’t be populated with information from the current page.
+    Instead, add the appropriate quick action to a page to (specify predefined fields).
+    Global actions live on a special layout of their own, known as the (global publisher layout)
+    object page layout isn’t customized - > he actions on those object record pages are inherited from the global publisher layout.
+    different things with global quick actions:
+        add a Send Email action to the global layout -> use anywhere in Lightning exp.
+        *You can’t add a global Send Email action to the Cases layout or use the action with cases.*
+        Add Log a Call actions to global layouts
+        In Lightning Experience, Log a Call actions on global layouts display in the Global Actions menu.
+        * have only one Log A Call action else mobile see full Task layout*
+        Canvas apps in custom actions require Publisher as a location.
+        Lightning components in custom actions, you must have My Domain deployed
+        Visualforce pages  in  custom actions, cant have standard controllers.
+        you want a custom action where 
+                                users enter a street address,
+                                see a map,
+                                the local time 
+                                and the local weather    - use VF page with no standard controller.
+
+                             
