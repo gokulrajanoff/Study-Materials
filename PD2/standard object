@@ -1,0 +1,186 @@
+Pd 2 : 
+
+System Field access :  Defaulted on create , filter
+	-> Id ,CreatedDate,CreatedById , LastModifiedDate,LastModifiedById ,SystemModstamp
+
+whether the record has been moved to the Recycle Bin (true) or not (false) ? 
+IsDeleted field. 
+
+Id field characteristic -> ID value contains a three-character code that identifies the object type,
+						-> Id fields cant be updated , reference field (FK) can be updated
+						-> ID fields in the Salesforce user interface contain 15-character, base-62, case-sensitive strings
+						-> all API calls(Lightning Platform API) return an 18-digit - case safe form.
+						-> To convert the 18-character ID to a 15-character version, truncate the last three characters
+
+API Field Properties :  Aggregatable, Autonumber , Create, Defaulted on create	, Delete, Filter, Group,idLookup,Namepointing,Nillable
+						Query,Restricted picklist	,Retrieve,Sort,Update.
+
+
+In Upsert , what field property used by Id and some name fields to specify a record ?
+ idLookup
+
+objects whose parents can be more than one type of object (task has account and contact), which field property Indicates whether the field's value is the Name of the parent of this object (true) or not (false). ?
+Namepointing
+
+ The only audit field you cannot set a value for is ? 
+ systemModstamp.
+
+ If an object has a relationship to a parent object, two fields are added. ? 
+
+ Parent_Name
+ Parent_NameId 
+ eg: Contact,ContactId on Case 
+
+  import data into Salesforce and want to retain the audit field values of the source system ? 
+
+  Setup ->  User Interface
+  Enable “Set Audit Fields upon Record Creation” and “Update Records with Inactive Owners” User Permissions.
+  In the permission set or profile that you want to set audit fields with, enable the permission "Set Audit Fields upon Record Creation".
+
+Compound fields : 
+Address compound fields , Geolocation fields.
+Compound fields are read-only. Changes are performed by writing to the individual component fields.
+The Address type extends the Location type, the data type used for compound geolocation fields
+StateCode and CountryCode always avaialable on compound address fields
+DISTANCE(BillingAddress, GEOLOCATION(37.775,-122.418), 'mi') < 20 in soql where clause.
+Read and set geolocation field components by appending “__latitude__s” or “__longitude__s” to the field name, instead of the usual “__c.”
+eg :myObject__c.aLocation__latitude__s;
+compound fields cant be used in visualforce,dataloader export , can’t access or set value.
+Custom geolocation and location fields on standard addresses aren’t supported with email templates.
+only formula functions that you can use with compound fields are ISBLANK, ISCHANGED, and ISNULL
+You can’t create custom compound address fields, but can create geo location compound field 
+must enable the geo data integration rule for each object
+set values for latitude and longitude by using SOQL, Workbench, SOAP or REST API, or a geocoding service. 
+Address fields can’t be used in WHERE statements in SOQL
+Address fields aren’t filterable,
+but the isFilterable() method of the DescribeFieldResult Apex class erroneously returns true for address fields.
+Geolocation fields aren’t supported in custom settings.
+Geolocation fields aren’t available in dashboards or Schema Builder.
+Geolocation fields are available in Visual Workflow and in formula-based workflow and approvals,they can’t be used in filter-based workflow updates and approvals.
+
+DISTANCE is supproted in  Select , WHERE and ORDER BY clauses in SOQL, but not in GROUP BY. 
+GEOLOCATION is supproted in  WHERE and ORDER BY clauses in SOQL, but not in GROUP BY. 
+
+DISTANCE(warehouse_location__c, GEOLOCATION(37.775,-122.418), 'km') works
+DISTANCE(GEOLOCATION(37.775,-122.418), warehouse_location__c, 'km') doesn’t work.
+Apex bind variables aren’t supported for the units parameter in the DISTANCE function.
+[SELECT ID, Name, BillingLatitude FROM Account WHERE DISTANCE(My_Location_Field__c, GEOLOCATION(10,10), :units) < 10]; dont work 
+
+The GEOLOCATION function returns a location data type that can be used only by, and must be used with, the DISTANCE function. The GEOLOCATION function doesn’t work on its own.
+
+  Standard Object : 
+  AcceptedEventRelation:
+  	event participants (invitees or attendees) with the status Accepted for a given event.
+  		EventId
+  		RelationId - ID OF INVITEE 
+  		RespondedDate
+  		Response
+  		Type - WHAT TYPE OF INVITEE (user / lead/contact)
+
+  Account : 
+  	 individual account, which is an organization or person
+  	 	Special Access Rules
+			Customer Portal users can access their own accounts and any account shared with them.
+		
+		AccountNumber - String(40)
+		AccountSource  - picklist
+		AnnualRevenue
+		BillingAddress - address compound field
+		BillingLatitude - Acceptable values are numbers between –90 and 90 with up to 15 decimal places
+		BillingLongitude- Acceptable values are numbers between –180 and 180 with up to 15 decimal places
+		ChannelProgramName - If this account has enrolled more than one channel program, the oldest channel program name will be displayed.
+		ChannelProgramLevelName - oldest level 
+		CleanStatus - Matched displays as In Sync, Acknowledged displays as Reviewed , Pending displays as Not Compared
+		ConnectionReceivedId - ID of the PartnerNetworkConnection that shared this record with your organization. This field is available 							if you enabled Salesforce to Salesforce.
+		ConnectionSentId - ID of the PartnerNetworkConnection that you shared this record with.
+		Description -  textarea limited to 32,000 KB. 32 MB.
+
+		DunsNumber -  Data Universal Numbering System (D-U-N-S) number is a unique, 9-digit number assigned to every business location in the Dun & Bradstreet database that has a unique, separate, and distinct operation. D-U-N-S numbers are used by industries and organizations around the world as a global standard for business identification and tracking. Maximum size is 9 characters. This field is available on business accounts, not person accounts.
+
+		picklist max size is 40 characters.
+
+		IsCustomerPortal -  This field is available if Customer Portal is enabled OR Communities is enabled and you have Customer Portal licenses. Indicates acc has contact to use organization's Customer Portal (true) or not (false). change true to false you can disable up to 100 Customer Portal users associated with the account and permanently delete all of the account's Customer Portal roles and groups
+
+		IsPartner - Indicates whether the account has at least one contact enabled to use the organization's partner portal (true) or not (false). This field is available if partner relationship management (partner portal) is enabled OR Communities is enabled and you have partner portal licenses. change true to false you can  disable up to 15 partner portal users associated with the account and permanently delete all of the account's partner portal roles and groups.
+
+		Jigsaw - the ID of a company in Data.com. , which is imported .Data.com Key is label .
+
+		LastActivityDate - Due date of the most recent event logged against the record. or Due date of the most recently closed task.
+
+		LastViewedDate - If this value is null, this record might only have been referenced (LastReferencedDate) and not viewed.
+
+		MasterRecordId - If this object was deleted as the result of a merge, this field contains the ID of the record that was kept
+
+		NaicsCode - 6-digit North American Industry Classification System (NAICS) code is the standard used by business and government to classify business establishments
+
+		Name - required field . if  account has a record type of Person Account, its read only , concat of FirstName, MiddleName, LastName, and Suffix of contact. 
+
+		OperatingHoursId -  Available only if Field Service Lightning is enabled.
+
+		OwnerId - API version 16.0 and later, users must have the “Transfer Record” permission in order to update (transfer) account ownership using this field.
+
+		PersonIndividualId - ID of the data privacy record associated with this person’s account. This field is available if you enabled Data Protection and Privacy in Setup.
+
+		PhotoUrl -  combined with URL of a Salesforce instance  to generate a URL to request the social network profile image associated with the account.returns an HTTP redirect (code 302)  
+
+		Sic - Standard Industrial Classification code of the company’s main business categorization, for example, 57340 for Electronics. Maximum of 20 characters.
+
+		IsPersonAccount Fields - can be modified only if IsPersonAccount has true.  PersonContactId had contact id.
+
+		PersonBirthDate - The year portion of the PersonBirthDate field is ignored in filter criteria, including report filters, list view filters, and SOQL queries.
+
+convert Lead via the convertLead()  into account . 
+If the values in the IsPersonAccount Fields are not null, you can't change IsPersonAccount to false, or an error occurs.
+
+StandardObjectNameFeed : 
+AccountFeed represents the posts and feed-tracked changes on an account record
+Where the feed item has nested content, only feed moderators and users with the Modify All Data permission can delete threads.
+CommentCount - display only the authorized count 
+if in rich text <br> tag isn’t supported, you can use <p>&nbsp;</p>
+The <img> tag is accessible only via the API and must reference files in Salesforce similar to this example: <img src="sfdc://069B0000000omjh"></img>
+
+A feed for an object is automatically created when a user enables feed tracking for the object.
+
+StandardObjectNameHistory: 
+AccountHistory represents the history of changes to the values of an account record’s fields
+
+AccountOwnerSharingRule: 
+rules for sharing an account with a User other than the owner.
+
+AccountShare: 
+	 shares the accounts that the user owns at the time, but not those accounts that are owned later. For these types of shares, use an owner-based sharing rule, such as AccountOwnerSharingRule.
+	 RowCause - Reason that this sharing entry exists.
+
+AccountTeamMember: 
+Use this object to manage the team members of a particular Account and to specify team member roles for those users on that account.
+
+Behavior differs when an account owner adds a team member whose access is based on group sharing. If the account owner is changed, the team member with group-based access is removed from the team, even if the Keep account team option is selected.
+
+You cannot change record types across record type families in the Salesforce user interface, eg: person to businss account cant happen over ui.
+
+Workflow and validation formulas do not fire during a change in record types from or to person accounts.
+
+
+AccountBrand - Represents the brand details of a Partner Account.
+AccountContactRelation - Represents a relationship between a contact and one or more accounts.
+to associate a single contact record to multiple account records so you can easily track the relationships between the people and businesses they work with.
+
+AccountCleanInfo - Stores the metadata Data.com Clean uses to determine an account record’s CleanStatus field value. AccountCleanInfo helps you automate the cleaning or related processing of account records.
+
+AccountContactRole - Represents the role that a Contact plays on an Account., can be only one primary.
+
+AccountInsight -(read-only) Represents an individual insight (a key business development) related to an account record.
+To see an insight related to a specific account, users need a Sales Cloud Einstein license and access to the account record.
+
+AccountPartner : represents a partner relationship between two Account records. 
+When you create a partner relationship between two accounts the API automatically creates two AccountPartner records, one for the forward relationship and one for the reverse. forward relationship - AccountFromId  to  AccountToId.
+
+AccountRelationship : Represents a relationship of a given type between two accounts.
+
+AccountRelationshipShareRule: 
+
+AccountTag : Associates a word or short phrase with an Account.
+AccountTag stores the relationship between its parent TagDefinition and the Account being tagged
+tag definition -> tag. 
+
+AccountTerritoryAssignmentRule ,AccountTerritoryAssignmentRuleItem : AccountTerritorySharingRule -> 
