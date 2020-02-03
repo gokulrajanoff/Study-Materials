@@ -169,4 +169,46 @@ req2.setWorkitemId(newWorkItemIds.get(0));
 // Submit the request for approval
 Approval.ProcessResult result2 =  Approval.process(req2);
 
+Authentication:
+create a custom OAuth-based authentication provider plug-in for single sign-on (SSO) to Salesforce.
+default support by SF for SSO ->service providers that implement the OpenID Connect protocol.
+
+you must create a custom metadata type record for your authentication provider
+you must still call getUserInfo in the custom authentication handler to avoid getting errors about mixing objects
+insert a contact in the Auth.RegistrationHandler.createUser method
+
+extends Auth.AuthProviderPluginClass (abstract)
+define methods -> getCustomMetadataType, initiate,handleCallback,getUserInfo.
+
+Chatter : 
+use zones to organize ideas and answers into groups
+Each zone can have its own focus, with unique ideas and answers topics to match that focus
+
+Answers Class:
+Represents zone answers
+->Answers.findSimilar(question);
+->Answers.setBestReply(questionId,replyId);
+
+Ideas Class
+Represents zone ideas.
+userId -> req communityID->optional if empty get all recent reply for user.
+Community -> = [ SELECT Id FROM Community WHERE Name = 'INTERNAL_IDEAS' ];
+Idea idea = new Idea ();
+Ideas.getUnreadRecentReplies(UserInfo.getUserId(), '');
+[SELECT Id, Title FROM Idea WHERE Id IN :recentRepliesIds]
+->findSimilar(idea)
+->getAllRecentReplies(userID, communityID)
+->getReadRecentReplies(userID, communityID)
+->getUnreadRecentReplies(userID, communityID)
+->markRead(ideaID)
+
+Zones class : 
+organize ques into logical group , own focus and unique question.
+ZoneSearchResultType enum value -> Article,Question
+
+Chatter : 
+ConnectApi namespace is referred to as Chatter in Apex.
+It doesn’t run in system mode like other Apex code.
+
+
 
