@@ -219,3 +219,8 @@ includes a URL and an HTTP method,
 and can include a request body and header information, such as an OAuth token for authentication.
 use this so that users can (take action to drive productivity and accelerate innovation.)
 
+1. create action link template
+2. define an action link group that contains at least one action link.
+ConnectApi.ActionLinks.createActionLinkGroupDefinition(communityId, actionLinkGroup)
+3. post a feed element and associate the action link with it.
+ConnectApi.ChatterFeeds.postFeedElement(communityId, feedElement)
