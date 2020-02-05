@@ -130,7 +130,7 @@ Approve or reject existing approval requests
 Approval.process - count against DML.
 Record lock and unlock - count as DML
 They’re blocked before a callout.
-ProcessRequest  > parent of ProcessRequest & ProcessWorkitemRequest
+ProcessRequest  > parent of ProcessSubmitRequest & ProcessWorkitemRequest
 
 //submit for approval 
 Approval.ProcessSubmitRequest req1 = 
@@ -209,6 +209,13 @@ ZoneSearchResultType enum value -> Article,Question
 Chatter : 
 ConnectApi namespace is referred to as Chatter in Apex.
 It doesn’t run in system mode like other Apex code.
+we can Create triggers that update Chatter feeds.
 
-
+Action Links: 
+action link is a button on a feed element.
+take a user to a Web page, initiate a file download, or 
+invoke an API call to Salesforce or to an external server
+includes a URL and an HTTP method,
+and can include a request body and header information, such as an OAuth token for authentication.
+use this so that users can (take action to drive productivity and accelerate innovation.)
 
