@@ -1,0 +1,49 @@
+
+
+Use the import wizards when:
+You are loading less than 50,000 rec.
+
+data loader
+Support for large files with up to 5 million records
+Detailed success and error log files in CSV format
+batch size : The maximum is 200 records. 
+if the Use Bulk API option - cant insert Null values ->instead use #N/A.
+Query request size : The default is 500; the minimum is 200, and the maximum is 2,000
+Use European date format for  dd/MM/yyyy
+cant Allow field truncation in bulk api 
+we can hard delete records when you configure Data Loader to Use Bulk API. 
+Keep in mind that hard deleted records are immediately deleted
+Start at row - start from where it failed
+Bulk API in Data Loader allows you to load or delete a large number of records
+-faster than using the default SOAP-based API
+Data Loader doesn’t support nested queries or querying child objects
+Data Loader doesn’t support queries that use polymorphic relationships.
+Data Loader currently does not support exporting attachments
+If you select compound fields for export in the Data Loader, they cause error messages. 
+To export values, use individual field components.
+5-minute limit to process 100 records when the Bulk API is enabled.
+if more than 10 mins places the remainder of the file back in the queue for later processing
+reprocessed up to 10 times before the operation is permanently marked as failed. 
+
+attachments : 
+Schedule Export page, select Include Attachments to include the Attachment.csv file in your export from 
+source org.
+
+sample 
+ParentId,Name,Body
+50030000000VDowAAG,attachment1.jpg,C:\Export\attachment1.gif
+If you intend to upload with Bulk API, verify that Upload Bulk API Batch as Zip File on the Settings
+
+Upload Content with the Data Loader
+upload documents and links into libraries 
+
+document:
+VersionData identifies the location and extracts the format,
+and PathOnClient identifies the type of document being uploaded.
+
+link: 
+upload a link using the Data Loader, specify the URL in ContentUrl. 
+
+You can’t export content using the Data Loader.
+if you’re updating content
+Include a ContentDocumentId column with an 18-character ID. 
