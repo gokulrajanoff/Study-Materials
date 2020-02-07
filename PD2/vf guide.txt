@@ -1,0 +1,16 @@
+
+avail HTML pass-through attributes using the "html-" prefix. 
+Pass-through attributes are attached to the generated <html> tag.
+
+<apex:page> attributes
+action -  invoked when this page is requested by the server,redirect the user to another page.
+cache - true for site pages
+
+contentType -  "application/vnd.ms-excel#contacts.xls"
+"text/html", "text/csv", "image/png", "image/gif", "video/mpeg", "text/css", and "audio/basic"
+
+readOnly -NO DML, records retrieved is relaxed from 50,000 to 1 million rows.
+colletion item size -  1,000 to 10,000.
+
+renderAs - "pdf"
+

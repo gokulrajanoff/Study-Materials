@@ -224,3 +224,65 @@ use this so that users can (take action to drive productivity and accelerate inn
 ConnectApi.ActionLinks.createActionLinkGroupDefinition(communityId, actionLinkGroup)
 3. post a feed element and associate the action link with it.
 ConnectApi.ChatterFeeds.postFeedElement(communityId, feedElement)
+
+Type of Action Links:
+Api(sync) , ApiAsync(async) , Download, Ui.
+
+After the action link group is instantiated, the values are stored in an encrypted format, passed via binding.
+actionURL, headers, and requestBody - not instantiated from template - encrypted.
+where as in action link template are not encrypted (above ones).
+binding values used when instantiating an action link group from a template are encrypted
+Don’t store sensitive information in templates. 
+Use binding variables to add sensitive information when you instantiate the action link group.
+
+can’t specify both excludeUserId and userId for an action link.
+
+However, you can’t add new binding variables.
+
+Primary(3 templates) displays action link groups in the body of feed elements.
+Overflow(4 templates) displays action link groups in the overflow menu of feed elements.
+
+number of Executions Allowed - unlimited we cant use type as Api(sync) , ApiAsync(async).
+
+Hours until Expiration - 8760
+
+features of managed packages, such as 
+listing on the AppExchange,
+push upgrades, 
+post-install Apex scripts,
+license management, 
+and enhanced subscriber support.
+
+The Chatter feed became a container of feed elements. after 31 api.
+Capabilities provide a consistent way to interact with objects in the feed.
+to know what fn avaialble -> . Inspect the capability object not feed element.
+ConnectApi.FeedElement.capabilities 
+posting a feed element, specify its characteristics in the ConnectApi.FeedElementInput.capabilities property.
+ConnectApi.FeedItem is a subclass of ConnectApi.FeedElement.
+
+ConnectApi.FeedItem.actor
+ConnectApi.FeedElement.header
+ConnectApi.FeedElement.body
+ConnectApi.FeedElement.capabilities
+ConnectApi.FeedElement.capabilities.bundle.changes
+
+If a user can see the parent of the feed element, the user can see the feed element.
+ConnectApi.FeedType - enum -> News,Topic,Stream etc.
+
+ConnectApi.ChatterFeeds.getFeedElementsFromFeed
+ConnectApi.ChatterFavorites.getFeedElements
+
+post to myself.
+ConnectApi.FeedElement feedElement = ConnectApi.ChatterFeeds.postFeedElement(null, 'me', ConnectApi.FeedElementType.FeedItem, 'Working from home today.');
+
+To access the data in a partner portal or a Customer Portal, 
+use a community ID for the communityId argument. You cannot use 'internal' or null.
+
+/connect/communities/communityId/resource
+or 
+/connect/communities/internal/resource
+
+if null : 
+/connect/resource
+/chatter/resourc
+
