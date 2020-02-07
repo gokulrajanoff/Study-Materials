@@ -1,0 +1,42 @@
+install salesforce CLI
+Install VS Code
+Install java 8
+Code -> preference -> setting -> apex ->java home : /Library/Java/JavaVirtualMachines/jdk1.8.0_231.jdk/Contents/Home
+https://nodejs.org/en/download/
+https://git-scm.com/downloads
+
+>Git: Initialize Repository
+Install source tree
+Install sublime text - (if by default VS code is not opening)
+
+
+Session code 
+
+1. SFDX: Create Project with Manifest
+2. SFDX: Authorize an Org
+3. SFDX: Retrieve Source in Manifest from Org
+4. SFDX: Deploy Source in Manifest in Org
+5. Git: Initialize Repository
+6. SFDX: Execute SOQL Query
+7. SFDX: Execute Anonymous Apex with Editor Contents
+8. Push-or-Deploy-on-save
+
+Formatter:
+
+1. npm init
+2. npm install --save-dev --save-exact prettier prettier-plugin-apex
+3. add  "prettier": "prettier" in package.jsonfile
+4. do one retrieve from source
+to format : 
+5.
+npm run prettier -- --write "D:\Developemnt\ApexInteractive/**/*.{trigger,cls}" (windows)
+npm run prettier -- --write "/Users/gokulrajan/Downloads/Development/test1/**/*.{trigger,cls}" (Mac)
+
+6. format on save
+
+interactive debugger : 
+
+SFDX: Toggle Checkpoint.
+SFDX: Update Checkpoints in Org
+SFDX: Turn On Apex Debug Log for Replay Debugger.
+SFDX: Get Apex Debug Logs.
