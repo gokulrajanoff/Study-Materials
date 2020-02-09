@@ -253,7 +253,7 @@ post-install Apex scripts,
 license management, 
 and enhanced subscriber support.
 
-The Chatter feed became a container of feed elements. after 31 api.
+The Chatter feed became a container of feed elements. after 31v api.
 Capabilities provide a consistent way to interact with objects in the feed.
 to know what fn avaialble -> . Inspect the capability object not feed element.
 ConnectApi.FeedElement.capabilities 
@@ -285,4 +285,109 @@ or
 if null : 
 /connect/resource
 /chatter/resourc
+
+JSON and JSONParser classes:
+serialize Chatter in Apex outputs to JSON,
+deserialize Chatter in Apex inputs from JSON.
+
+json - input - chatter in apex -> output - > json 
+
+only output got serialized , top level input got  deserializes.
+Enum values and exceptions cannot be serialized or deserialized.
+
+ConnectApi Versioning and Equality Checking:
+
+apex class(v 41) has method for calling chatter api. so those ConnectApi method call executes in the context of the version of the class.
+ConnectApi output object has getBuildVersion method
+apex class (v41) so can access properties of input objects belong to version 41 only.
+if input contains version inapproriate properties -> exception.
+output of toString has only version appropriate properties.
+deserialization and serialize also support version related properties only.
+Enums are not versioned. 
+
+Equality checking : 
+Input objects—properties are compared.
+output -> properties and version are compared , if diff version its diff objects.
+
+Casting ConnectApi Objects: 
+
+downcast some ConnectApi is useful for 
+message segments - ConnectApi.MessageSegment
+feed item capabilities - ConnectApi.FeedItemCapability
+and record fields - ConnectApi.AbstractRecordField
+
+before downcaste: 
+At runtime 
+use instanceof() to check the concrete types of these objects and then safely proceed with the corresponding downcast
+Your code should always be prepared to handle instances of unknown subclasses.
+
+Chatter REST API request:
+/chatter/feed-elements?q=chat*
+chatter in apex:
+ConnectApi.ChatterFeeds.searchFeedElements(null, 'chat*');
+
+wildcard accepted in chatter : 
+* , ? -> You can't use a ? in a lookup search.
+you must enclose your search string in quotation marks and you must escape the special character.  if searching for "name\?"
+
+Chatter in Apex doesn’t support the runAs system method.
+Most Chatter in Apex methods  should be @IsTest(SeeAllData=true). else failed 
+
+ some Chatter in Apex methods, such as getFeedElementsFromFeed, 
+ are not permitted to access organization data in tests and must be used with special test methods 
+ that register outputs to be returned in a test context.
+ eg: test.setTest-----
+ test method signature is same as regular method signature.
+ chatter in apex testing == web service testing
+ build data ->(create output object and set properties)
+ call the test method to register the data
+ user regualr method will return the registered data.
+ if no data registedred exception thrown
+ eg:
+ ConnectApi.ChatterFeeds.setTestGetFeedElementsFromFeed(null,ConnectApi.FeedType.News, 'me', testPage);
+
+diff btw connect api class and other class : 
+Chatter in Apex methods don’t run in system mode, they run in the context of the current user
+string "me" to specify the context user instead of an ID.(subjectId)
+Chatter in Apex ignores the with sharing and without sharing keywords
+if your code adds a feed item for a user, it isn’t immediately available in the news feed.
+doesn’t support XML serialize, only JSON for chatter object.
+Empty log entries in VARIABLE_ASSIGNMENT log events. for chatter.
+cant be used in soap webserive . only rest . 
+
+how to Moderate Chatter Private Message? 
+create a before insert trigger on ChatterMessage sobject . get message and sender id.
+
+how to moderate feed item ? 
+create a before insert trigger on FeedItem sobject . get message and sender id , if any issues 
+set status = 'PendingReview';
+
+Communities :
+Communities are branded spaces for your employees, customers, and partners to connect.
+You can interact with communities in Apex using the Network class 
+and using Chatter in Apex classes in the ConnectApi namespace.
+ConnectApi.Communities class with methods that return information about communities.
+
+Email : 
+
+The email is received by the Apex email service, and processed by Apex classes that utilize the InboundEmail object.
+implements Messaging.InboundEmailHandler 
+handleInboundEmail()
+
+Outbound Email:
+Messaging.SingleEmailMessage
+Messaging.MassEmailMessage
+Messaging.sendEmail()
+
+how to ensure org dont exceed daily email.
+Messaging.reserveMassEmailCapacity(count);
+Messaging.reserveSingleEmailCapacity(count);
+
+after transaction commited - email sent.
+All email that is returned, bounced, or received out-of-office replies goes to the user calling the method.
+10 sendEmail methods per transaction
+
+Messaging.SingleEmailMessage  -> setOrgWideEmailAddressId().
+accepts object ID to an OrgWideEmailAddress object.
+OrgWideEmailAddress.DisplayName field is used in the email header, instead of the logged-in user's Display Name.
 
