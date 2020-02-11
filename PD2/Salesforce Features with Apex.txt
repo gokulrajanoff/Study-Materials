@@ -501,3 +501,72 @@ Local cache is the application server’s in-memory container
 org cache : 
 local cache size for partition - > 1000 kB 
 developer min time to live - 5 minutes
+
+create partition -> allocate session and org cache for each part.
+
+can distribute your org’s cache space across any number of partitions.
+
+partition has no allocation,no cache operation invoked , no error returned.
+no need of partition name for default partition.
+
+while packaging explicitly add referenced partition explicitly.
+Partition validation occurs during run time, not compile time.
+don’t use the default partition in the package,deployment will fail.
+
+Branch Packaging Orgs - share namespace across partitions.
+maintain multiple org as branches of primary org.
+
+least recently used (LRU) algorithm to improve performance.
+
+Cache operations don’t interact with the caching layer directly, but instead interact with local cache.
+cache layer -> local cache on reuquest and served from there hereafter.
+Local cache doesn’t support concurrent operations
+If session cache is used, the system removes cache evenly from all existing session cache instances.
+
+The key name is in the format namespace.partition.key
+default partition -> no need of namespace and partition.
+local prefix refers to the namespace of the current org where the code is running
+->local.myPartition.orderDate
+The cache put calls are not allowed in a partition that the invoking class doesn’t own
+Cache.Session.get() returns an object
+Cache.SessionPartition sessionPart = Cache.Session.getPartition('myNs.myPartition');
+
+use $Cache.Session or $Cache.Org global variable in vf page.
+<apex:outputText value="{!$Cache.Session.myNamespace.myPartition.key1}"/>
+
+class that implements cache builder interface.
+<apex:outputText value="{!$Cache.Session.myNamespace.myPartition.CacheBuilderImpl_B_key1}"/>
+
+Safely Cache Values with the CacheBuilder Interface
+cache misses -> check for null or use cacheBuilder 
+if no value exist doLoad method run , if value exists it get from cache.
+
+class UserInfoCache implements Cache.CacheBuilder {
+    public Object doLoad(String userid) {
+        User u = (User)[SELECT Id, IsActive, username FROM User WHERE id =: userid];
+        return u;
+    }
+}
+
+User batman = (User) Cache.Org.get(UserInfoCache.class, ‘00541000000ek4c');
+no need to use put();
+
+classname+doLoad string argument make = unique value for cache.
+do load alwyas return value and caste it .
+class should be non static that implements the cache builder interface.
+
+Use the System.currentTimeMillis() method for calculate the elapsed time.
+
+Aggregate functions are available only for the Cache.Org class.
+To retrieve multiple keys, call get(keys) in an initialization method.
+
+Caching the class instance improves overall serialization size and performance.
+
+This local cache eviction can cause unexpected misses and long serialization time and can waste resources.
+The size of individual cached items is limited to 100 KB
+
+Cache.Session usage is not expensive.
+Cache.Org.getKeys() and Cache.Org.getCapacity() -> expensive 
+bcoz org  traverse all partition-related
+avoid contains and get but instead use get and check for null
+
