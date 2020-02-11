@@ -848,5 +848,85 @@ In Apex tests, use dynamic SOQL to query external objects.
 Tests that perform static SOQL queries of external objects fail
 Test methods don’t support web service callouts. use if (System.Test.isRunningTest()) {return mock response}
 
+Salesforce Reports and Dashboards API via Apex
+programmatic access to your report data as defined in the report builder.
 
+you might use the API to trigger a Chatter post with a snapshot of top-performing reps each quarter.
 
+Integrate report data into custom objects.
+Integrate report data into rich visualizations to animate the data.
+Build custom dashboards.
+Automate reporting tasks
+
+Run tabular, summary, or matrix reports synchronously or asynchronously.
+Filter for specific data on the fly.
+Query report data and metadata.
+
+limitation : 
+Cross filters, standard report filters, and filtering by row limit are unavailable.
+Historical tracking reports are only supported for matrix reports,subscription not supported.
+only 100 fields selected as columns.
+list of up to 200 recently viewed reports returned.
+500 synchronous report runs per hour.
+20 synchronous report run requests at a time.
+2,000 instances of a report that was run asynchronously.
+200 requests at a time to get results of asynchronous report runs
+1,200 asynchronous requests per hour.
+Asynchronous report calls are not allowed in batch Apex.
+Report calls are not allowed in Apex triggers.
+no Apex method to list recently run reports.
+sync report processed row =  50,000 
+There is no way to disable the SeeAllData annotation for a report execution in apex test.
+
+Run Reports:
+the API returns data for the same number of records that are available when the report is run in the Salesforce user interface.
+asynchronously adv : 
+long -running reports have a lower risk of reaching the timeout
+two-minute overall Salesforce API timeout limit doesn’t apply to asynchronous runs.
+
+sync run : 
+Reports.ReportResults results = Reports.ReportManager.runReport(reportId, true);
+asnyx run : 
+Reports.ReportInstance instance = Reports.ReportManager.runAsyncReport(reportId, true);
+Reports.ReportManager.getReportInstances(reportId)
+Report results are stored for a rolling 24-hour period.
+
+retrieve report metadata to get information about a report and its report type.
+ReportResults.getReportMetadata method to retrieve report metadata.
+Reports.ReportMetadata rm = results.getReportMetadata();
+rm.getName(); // like wise get related metadata.
+
+data :
+ReportResults class to get the fact map, which contains data that’s associated with a report.
+ imagine that you have an opportunity report that’s grouped by close month, and you’ve summarized the amount field.
+ 
+Reports.GroupingValue GroupingValue = results.getGroupingsDown().getGroupings()[0];
+factMapKey = GroupingValue.getKey()+'!T'; //generate factmap key
+Reports.ReportFactWithDetails   = results.getFactMap().get(factMapKey);
+details.getAggregates()[0]; //first summary amount.
+
+Changes to filters that are made through the API don’t affect the source report definition.
+
+The ReportTypeColumn.getFilterable method tells you whether a field can be filtered.
+The ReportTypeColumn.filterValues method returns all filter values for a field.
+The ReportManager.dataTypeFilterOperatorMap method lists the field data types that you can use to filter the report.
+The ReportMetadata.getReportFilters method lists all filters that exist in the report.
+
+retrieves the report metadata, overrides the filter value, and runs the report.
+ ReportFilter.setValue method
+
+// Get the report metadata
+Reports.ReportDescribeResult describe = Reports.ReportManager.describeReport(reportId);
+Reports.ReportMetadata reportMd = describe.getReportMetadata();
+Reports.ReportFilter filter = reportMd.getReportFilters()[0];
+filter.setValue('2013-11-01');
+(Reports.ReportFactWithSummaries)results.getFactMap().get('T!T');
+
+report results can contain values for only summary or both summary and detailed data.
+The fact map values are expressed as keys, which you can programmatically use to visualize the report data
+
+key pattern : 
+Tabular - T!T:
+Summary - !T
+
+The Reporting Apex methods don’t run in system mode, they run in the context of the current user 
