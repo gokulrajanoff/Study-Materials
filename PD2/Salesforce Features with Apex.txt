@@ -930,3 +930,57 @@ Tabular - T!T:
 Summary - !T
 
 The Reporting Apex methods don’t run in system mode, they run in the context of the current user 
+
+Salesforce Sites: 
+manage your Salesforce sites in Apex using the methods of the Site and Cookie classes.
+
+To rewrite URLs for a site, create an Apex class that maps the original URLs to user-friendly URLs,
+and then add the Apex class to your site.
+
+global class yourClass implements Site.UrlRewriter {
+    global PageReference mapRequestUrl(PageReference
+            yourFriendlyUrl)
+    global PageReference[] generateUrlFor(PageReference[]
+            yourSalesforceUrls);
+}
+
+Incoming URL requests can only be mapped to Visualforce pages associated with your site.
+You can't map to standard pages, images, or other entities.
+
+To rewrite URLs for links on your site's pages:
+<apex:outputLink value="{!URLFOR($Page.myPage)}"></apex:outputLink>
+
+Visualforce <apex:form> elements with forceSSL=”true” aren't affected by the urlRewriter.
+except for the .well-known path component, which can’t be used at the end of a URL. -> no period in URL
+
+String emailThreadId = '_00Dxx1gEW._500xxYktg';
+        // Call Apex method to retrieve case ID from email thread ID 
+        ID caseId = Cases.getCaseIdFromEmailThreadId(emailThreadId);
+
+BusinessHours bh = [SELECT Id FROM BusinessHours WHERE IsDefault=true];
+Datetime startTime = Datetime.newInstance(2008, 5, 28, 1, 6, 8);
+after one business hour
+Datetime nextTimeGmt = BusinessHours.addGmt(bh.id, startTime, 60 * 60 * 1000L);
+
+you can write trigger on it:
+UserTerritory2Association -> users have been added to territories
+Territory2  - > territory for each TerritoryModel(Territory2Model)
+
+flows : 
+you can create a flow to script calls for a customer support center
+generate real-time quotes for a sales team. 
+embed a flow in a Visualforce page or Aura component and access it in an Apex controller.
+
+Flow.Interview Apex class provides the getVariableValue method for retrieving a flow variable
+
+public Flow.Interview.Flow_Template_Gallery myFlow {get; set;}
+myFlow.getVariableValue('vaBreadCrumb');
+
+Process.Plugin interface to pass Passing Data to a Flow.
+The interface exposes Apex as a service, which accepts input values and returns output back to the flow.
+@InvocableMethod annotation instead of the Process.Plugin interface.
+Once you implement the interface on a class, the class can be referenced only from flows.
+
+The annotation supports all data types and bulk operations. 
+Once you implement the annotation on a class, the class can be referenced from flows,
+processes, and the Custom Invocable Actions REST API endpoint.
