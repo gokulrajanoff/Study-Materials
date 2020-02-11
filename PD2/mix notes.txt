@@ -143,3 +143,17 @@ HTTP POST request is sent, and creates a new resource.
 @HttpPut
 HTTP PUT request is sent, and creates or updates the specified resource.
 
+Apex Actions:
+Invoke Apex methods annotated with @InvocableMethod and include custom parameters with @InvocableVariable.
+
+get list of avaialbe action : 
+/vXX.X/actions/custom/apex
+get specific action info:
+/vXX.X/actions/custom/apex/action_name
+
+The resource is the name of the Apex class, not the Apex method. 
+In this example, the resource is /ActionTest, not /getAccountNames.
+
+respect the profile access for the Apex class. If you don’t have access, an error is issued.
+remove the @InvocableMethod annotation from the Apex class, you get a runtime error in the flow.
+
