@@ -570,3 +570,196 @@ Cache.Org.getKeys() and Cache.Org.getCapacity() -> expensive
 bcoz org  traverse all partition-related
 avoid contains and get but instead use get and check for null
 
+Salesforce Connect
+Apex code can access external object data via any Salesforce Connect adapter.
+By default, external object records are read only. 
+
+Salesforce Connect uses a protocol-specific adapter to connect to an external system
+you specify the adapter in the Type field.
+
+adapters are available for Salesforce Connect:
+Cross-org(sf to sf), 
+OData 2.0-OData 4.0 (The external data must be exposed via OData producers.),
+Custom adapter created via Apex.
+
+Salesforce Connect invokes methods in the Apex classes that compose the custom adapter.
+when will be invoked : 
+when click of tab to see list view.
+views a record detail page
+view related list
+Salesforce global search.
+DML opertation on record
+run report
+preview in  report builder.
+accessed via flow,api,apex,soql,sosl.
+validate or sync.
+
+these features aren’t available for external objects-> Apex-managed sharing and trigger.
+you can create triggers on external change data capture events from OData 4.0 connections
+
+asynchronous timing and an active background queue minimize potential save conflicts.
+Apex also lets you retrieve the results of delete and upsert operations.
+BackgroundOperation object to monitor job progress for write operations via the API or SOQL
+
+Database.insertAsync() methods can’t be executed in the context of a portal user,
+even when the portal user is a community member.
+
+add external object records via Apex, use Database.insertImmediate() methods.
+batch Apex job against an external data source -> external records are stored in Salesforce while the job is running.
+removed from storage when the job completes, 
+No external data is stored during batch Apex jobs that use Database.QueryLocator.
+
+if batch Apex with Database.QueryLocator to access external objects via an OData
+ enable Request Row Counts on the external data source
+ each response must include the total row count of the result set.
+  enabling Server Driven Pagination on the external data source
+  external system determine page sizes and batch boundaries for large result sets.
+  server-driven paging more effective than client paging in adjust batch boundaries
+  if Server Driven Pagination is disabled on the external data source
+    OData adapter controls the paging behavior (client-driven)
+   If external object records are added to the external system while a job runs, other records can be processed twice.
+   if deleted other records skipped.
+
+the batch size at runtime is the smaller of the following:
+Database.executeBatch(scope value);
+external system to return page sizes of 200 or fewer records.
+
+can’t execute standard insert(), update(), or create() operations on external objects
+DML on external objects are either asynchronous or executed when specific criteria are met.
+SalesOrder__x -> __x for external objects.
+
+Writes performed on external objects through the Salesforce user interface or the API are synchronous.
+
+initiate an Apex method on an external object, a job is scheduled and placed in the background jobs queue. 
+
+DataSource namespace to get the unique identifiers for asynchronous jobs,
+or to retrieve results lists for upsert, delete, or save operations.
+
+External Change Data Capture Packaging and Testing
+
+managed packages, - > External Change Data Capture components & framework for testing your Apex triggers
+select from Apex Class Component Type list -> trigger, test, external data source, external object, and other related assets
+Certificates aren’t packageable
+make sure that the subscriber org has a valid certificate with the same name.
+
+EventBus.publish(event);
+Test.getEventBus().deliver();
+
+custom adapter for Salesforce Connect:
+create two Apex classes: one that extends the DataSource.Connection class, 
+and one that extends the DataSource.Provider class.
+
+global class SampleDataSourceConnection
+    extends DataSource.Connection {
+    global SampleDataSourceConnection(DataSource.ConnectionParams
+        connectionParams) {
+    }
+}
+
+ sync() 
+ on clicks of the Validate and Sync button 
+ Changing the sync method on the DataSource.Connection class doesn’t automatically resync any external objects.
+ override global List<DataSource.Table> sync() {
+      List<DataSource.Table> tables =
+            new List<DataSource.Table>();
+        List<DataSource.Column> columns;
+        columns = new List<DataSource.Column>();
+        columns.add(DataSource.Column.text('Name', 255));
+        columns.add(DataSource.Column.text('ExternalId', 255));
+        columns.add(DataSource.Column.url('DisplayUrl'));
+        tables.add(DataSource.Table.get('Sample', 'Title',
+            columns));
+        return tables;
+ }
+
+query()
+soql on external object, user opens an external object’s list view or detail page in Salesforce.
+DataSource.QueryContext is always only for a single table.
+DataSource.QueryUtils class-> process query results locally within your Salesforce org(not supported on prod which use callout)
+Complete the filtering and sorting on the external system before sending the query results to Salesforce
+use server paging.
+
+search()
+sosl or global search 
+ the DataSource.SearchContext can have multiple tables selected
+
+upsertRows()
+external object records are created or updated.
+makePutCallout(),makePostCallout()
+
+deleteRows()
+use this makeDeleteCallout()
+
+DataSource.Provider Class:
+AuthenticationCapability.ANONYMOUS if no auth needed.
+
+getAuthenticationCapabilities():
+override global List<DataSource.AuthenticationCapability>
+    getAuthenticationCapabilities() {
+    List<DataSource.AuthenticationCapability> capabilities =
+        new List<DataSource.AuthenticationCapability>();
+    capabilities.add(
+        DataSource.AuthenticationCapability.ANONYMOUS);
+    return capabilities;
+}
+
+To allow SOQL :  DataSource.Capability.ROW_QUERY
+To allow SOSL : DataSource.Capability.SEARCH 
+ DataSource.Capability.ROW_CREATE and DataSource.Capability.ROW_UPDATE and  DataSource.Capability.ROW_DELETE
+
+ override global List<DataSource.Capability> getCapabilities()
+{
+    List<DataSource.Capability> capabilities = new
+        List<DataSource.Capability>();
+    capabilities.add(DataSource.Capability.ROW_QUERY);
+    capabilities.add(DataSource.Capability.SEARCH);
+    capabilities.add(DataSource.Capability.ROW_CREATE);
+    capabilities.add(DataSource.Capability.ROW_UPDATE);
+    capabilities.add(DataSource.Capability.ROW_DELETE);
+    return capabilities;
+}
+
+    override global DataSource.Connection getConnection(
+        DataSource.ConnectionParams connectionParams) {
+        return new sampleClassName(connectionParams);
+    }
+}
+
+in external data source’s Type field specifies the correct DataSource.Provider class.
+
+Key Concepts About the Apex Connector Framework:
+the values of the External ID standard field on an external object come from the DataSource.Column named ExternalId.
+Don’t use sensitive data as the values of the External ID ,because Salesforce sometimes stores those values.
+display the External ID values of the parent records.
+except high-data-volume external data sources, external id are stored.
+
+DataSource.Provider class declares what types of credentials can be used to authenticate to the external system.
+if  DataSource.AuthenticationCapability values that indicate support for authentication
+ then the DataSource.Connection class is instantiated with a DataSource.ConnectionParams instance in the constructor.
+
+The authentication credentials in the DataSource.ConnectionParams instance depend on the
+Identity Type field of the external data source definition in Salesforce.
+
+Identity Type is set to Named Principal, the credentials come from the external data source definition.
+Identity Type is set to Per User : sync() ->  the credentials come from the external data source definition.
+queries and searches() -> cred specific to user ,come from user’s authentication settings for the external system.
+
+OAuth for Salesforce Connect Custom Adapters:
+learn how to avoid access interruptions caused by expired access tokens.
+
+automatically refresh access tokens as needed when:
+valid refresh token from a previous OAuth flow.
+DataSource.Connection class throws a DataSource.OAuthTokenExpiredException.
+OAuth credentials -> remote service - > refresh token ->
+DataSource.Connection class reconstructed with new oauth token in ConnectionParams.
+
+requesting offline access:
+add refresh_token to the Default Scopes field on the authentication provider definition in your Salesforce organization.
+
+for other auth providers u must request offline access in the authentication URL as a query parameter. 
+For example, with Google, append ?access_type=offline in auth endpoint URL Field.
+
+To edit the authorization endpoint, select Open ID Connect in the Provider Type field of the authentication provider
+
+
+
