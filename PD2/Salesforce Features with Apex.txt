@@ -761,5 +761,92 @@ For example, with Google, append ?access_type=offline in auth endpoint URL Field
 
 To edit the authorization endpoint, select Open ID Connect in the Provider Type field of the authentication provider
 
+Callouts for Salesforce Connect Custom Adapters:
+
+requires authentication, incorporate the authentication parameters into the callout
+Authentication parameters are encapsulated in a ConnectionParams object and provided to your DataSource.Connection
+
+request.setHeader('Authorization', 'Bearer ' + 
+            this.connectionInfo.oauthToken);
+
+string encodedHeaderValue = EncodingUtil.base64Encode(Blob.valueOf(
+            this.connectioninfo.username + ':' + 
+            this.connectionInfo.password));
+    request.setHeader('Authorization', 'Basic ' + encodedHeaderValue);
+
+Named Credentials as Callout Endpoints: 
+A named credential lets Salesforce handle the authentication logic for you so that your code doesn’t have to.
+If all your custom adapter’s callouts use named credentials,
+you can set the external data source’s Authentication Protocol field to No Authentication.
+also no need of remote site.
+
+Paging with the Apex Connector Framework:
+server-driven paging(batch boundaries or page sizes that are specified in queries ignored), 
+the external system to control the paging we need to enable:
+declare the QUERY_PAGINATION_SERVER_DRIVEN capability in your DataSource.Provider class  
+your Apex code must generate a *query token* and use it to determine and fetch the next batch of results.
+
+client-driven paging, you use LIMIT and OFFSET clauses to page through result sets. 
+in DataSource.QueryContext -> maxResults ,offset 
+
+Custom adapters for Salesforce Connect don’t automatically support the queryMore method in API queries.
+your implementation break large set to batches and iterate over them by using the queryMore method.
+The default batch size is 500 records, but the query developer can adjust that value programmatically 
+
+if server side: 
+TableResult must provide a queryMoreToken value.arbitrary string that we store temporarily
+pass the query token back to your custom adapter in the DataSource.QueryContext
+Apex code determine next batch of results. 
+final batch -> no queryMoreToken value.
+
+if client drived: 
+declare the QUERY_TOTAL_SIZE capability in your DataSource.Provider class
+ DataSource.TableResult will return total size
+ total size > result
+we generate a nextRecordsUrl link and set the done flag to false
+
+if total record capability not supported : 
+our query is has limit 5 
+DataSource.QueryContext that has the maxResults property set to 6.
+if 6 present or not we can determine more data is there.
+We assume, however, that the data set we query against doesn’t change between queries.
+
+COUNT() query, the selected column has the value QueryAggregation.COUNT in its aggregation property.
+DataSource.QueryContext.tableSelection.columnsSelected.get(0).aggregation = QueryAggregation.COUNT
+
+DataSource.QueryContext - >  1  DataSource.TableSelection
+DataSource.SearchContext -> *many DataSource.TableSelection has filter property.
+
+Evaluating Filters in the Apex Connector Framework: 
+A filter evaluates to true for a row if that row matches the conditions that the filter describes.
+DataSource.Filter has 
+columnName set to meaningOfLife, 
+columnValue set to 42, 
+and type set to EQUALS.
+
+for performance : 
+do all the filtering in the external system
+translate the Filter object into a SQL or OData query, or map it to parameters on a SOAP query.
+filter in client cause governor limits.
+
+Filters can have child filters, which are stored in the subfilters property.
+Filter type must be one of the following.
+NOT_ OR_ AND_
+DataSource.FilterType.AND_
+
+consideration : 
+change and save a DataSource.Connection class, resave the corresponding DataSource.Provider class
+else , the custom adapter doesn’t appear as an option for the Type field
+DML operations aren’t allowed in the Apex code that comprises the custom adapter.
+external systems accept only requests for up to 40 rows
+
+Double—The value loses precision beyond 18 significant digits,for higher use decimal.
+String—If the length is greater than 255 characters, the string is mapped to a long text area
+Custom adapters  has all governor limit
+
+In Apex tests, use dynamic SOQL to query external objects.
+Tests that perform static SOQL queries of external objects fail
+Test methods don’t support web service callouts. use if (System.Test.isRunningTest()) {return mock response}
+
 
 
