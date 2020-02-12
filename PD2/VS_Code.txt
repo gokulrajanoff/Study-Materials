@@ -1,9 +1,10 @@
 install salesforce CLI
 Install VS Code
 Install java 8
-Code -> preference -> setting -> apex ->java home : /Library/Java/JavaVirtualMachines/jdk1.8.0_231.jdk/Contents/Home
+(mac)Code -> preference -> setting -> apex ->java home : /Library/Java/JavaVirtualMachines/jdk1.8.0_231.jdk/Contents/Home
 https://nodejs.org/en/download/
 https://git-scm.com/downloads
+Salesforce extension pack
 
 >Git: Initialize Repository
 Install source tree
