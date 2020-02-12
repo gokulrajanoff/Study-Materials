@@ -432,4 +432,99 @@ this call uses an indexed custom field called an external ID on custom object.
 External ID fields cannot be used with merge().
 uses externalIdFieldName and records as input 
 
+Choose the Right Automation Tool:
+Lightning Flow are two point-and-click automation tools:
+Process Builder, which lets you build processes, and Flow Builder, which lets you build flows.
 
+Create a guided tutorial or wizard with screens.? 
+Flow Builder , also add aura componenet to screens
+
+Set up automated tasks and processes.?
+Process Builder or Flow Builder. If needed, you can build custom Apex code to fill any functional gaps.
+
+Connect to external systems.? 
+Process Builder and Flow Builder let you respond to and send platform event messages
+ In addition, Flow Builder can retrieve data from third-party systems with External Services.
+
+Add automation to your pages and apps?
+ behind-the-scenes processes start when the right action happens
+ when , whether that’s when records change or when users click a particular button.
+
+Reuse what you build.?
+any flow can be used as a subflow.
+, create an invocable process to reuse.
+
+Behind-the-scenes automation - Process Builder Flow Builder Apex
+Approval automation	 - Approvals
+
+Process builder : 
+A record is created
+A record is updated
+A platform event occurs
+
+Flow Builder:
+Automate a guided visual experience.
+need more fn than process builder.
+Start a behind-the-scenes business process when a user clicks something, like a button.
+
+Guide a community member through requesting a new credit card with a step-by-step wizard.
+-Flow Builder	
+
+A sales rep clicks a button on an opportunity, which launches a discount calculator.	
+-Flow Builder	
+
+When an account is updated, update all of the contacts related to that account.	
+-process builder
+
+When an opportunity stage is updated, also update a custom checkbox field.
+- process builder
+
+Create a task when a platform event occurs.	
+-process builder
+
+Update a lead record in Salesforce after a certain amount of time passes, or when a specified time is reached.	
+-process builder
+
+When an opportunity closes, automatically create a renewal opportunity.	
+-Process Builder and Flow Builder both(you can build parts of that use case as a process, but the rest has to be built in a flow)
+
+Route an employee’s time-off request to a manager for approval.	
+-approval
+
+Debugging Apex:
+
+Debug Log
+has 
+Automated workflow processes, such as:
+Workflow rules
+Assignment rules
+Approval processes
+Validation rules
+
+does not include information from actions triggered by time-based workflows.
+header  of log contains - >  log category and level used to generate the log.
+
+Be particularly careful with processes 
+such as community users self-registration where user passwords may be assigned to an Apex string variable.
+bcoz finest level has Apex variable assignments details.
+
+execution unit is equivalent to a transaction
+code unit is a discrete unit of work within a transaction
+eg: trigger,webserice,validation.
+A class is not a discrete unit of code.
+
+
+Debug log filtering provides a mechanism for fine-tuning the log verbosity at the trigger and class level.
+these debug levels also apply to the class methods that your class or trigger calls and the triggers that get executed as a result. 
+
+logging order of precedence: 
+Trace flags override all other logging logic
+
+Setting class and trigger trace flags doesn’t cause logs to be generated or saved. 
+Class and trigger trace flags override other logging levels,
+including logging levels set by user trace flags, but they don’t cause logging to occur. 
+
+API requests that are sent without debugging headers generate transient logs—logs not saved.
+
+Exceptions in Apex:
+    
