@@ -211,3 +211,225 @@ if doNotCreateOpportunity  is true dont specify oppName.
 ownerId -> owner of new records.
 sendNotificationEmail -> true email for owner 
 
+convertLead return LeadConvertResult:
+has boolean success , array of errors
+
+create():
+one or more new records to your organization’s data.
+you might also need permissions to access the object’s parent object. 
+Before you attempt to create() a record for a particular object.
+
+Only objects where createable is true can be created via the create() call
+invoke the describeSObjects() call on the object and inspect its createable property.
+if you do not override OwnerID,it takes  user as whom your client application is logged in.
+if non req field , value will be null,
+you must supply the foreign key information that links the child to the parent. 
+API trims any leading and trailing whitespace
+
+AllowFieldTruncationHeader SOAP header if not specified , long string throw error.
+
+accounts fire Territory Management assignment rules.
+
+populate AssignmentRuleHeader to have the case or lead automatically assigned to one or more users
+based on assignment rules configured in the Salesforce user interface.
+
+200 records in a single create() call
+AllOrNoneHeader header allows you to roll back 
+Automatically follow records that I create option in their personal settings to subscribe.
+
+use DisableFeedTrackingHeader. don't want to track the changes in various feeds related to the records
+can create records for multiple object types, including custom objects, in one call 
+up to 10 object types in one call.
+the parent record must precede the child record in the sObjects array.
+contact references the account by using an External ID field.
+can't add a record that references another record(in the array) of the same object type in the same call.
+
+record of diff obj type -> broken to chunks ->each chunk(each object)
+10 chunks in one call bcoz only 10 object supported in one call.
+
+except user,group,groupmember, custom setting , any insert in setup object along with custom  throw error mix DML.
+
+how to create parent and child in same call : 
+use external ID fields as foreign keys to create parent and child records 
+create child
+create parent only populate external id
+set as parent for child
+create one more record for parent set same external id,fill other fields.
+pass parent with field populated and child .
+
+ SaveResult[] = create(List<Sobject>)
+
+ delete():
+ one or more records from your organization’s data.
+ also need permission to access this object’s parent object
+ to ensure referential integrity
+ If you delete a parent object, you delete its children automatically, 
+object must be configured as deletable (deletable is true) . for used in delete().
+
+mix object(setup and normal) delete cause error.
+except those 4.
+
+AllOrNoneHeader allow rollback on error.
+takes list of id as input
+DeleteResult[] deleteResults = connection.delete(ids);
+
+deleteByExample()
+to delete big object data from your org using an sObject as a template for what to delete
+
+Define an sObject using all the fields that make up the index of the big object.
+all matching row with value specified will be deleted.
+
+sObject[] fieldHistoryArchive_1 = new sObject();
+//how to delete records in FieldHistoryArchive.
+fieldHistoryArchive_1.setType("FieldHistoryArchive");
+or
+customerBO.setType("Customer_Interaction__b");
+DeleteByExampleResult[] result = connection.deleteByExample(sObjectsToDelete);
+
+emptyRecycleBin()
+view and restore recently deleted records for 15 days before they are permanently deleted.
+5,000 records per license
+
+After records are deleted from the Recycle Bin using this call, 
+they can be queried using queryAll() for some time
+
+Do not include the IDs of any records that will be cascade deleted.
+
+executeListView():
+Executes a list view’s SOQL query to retrieve data, labels, and actions from a list view.
+executeListView() call takes an ExecuteListViewRequest object, 
+executes the SOQL query for the list view, and returns the resulting data
+
+ExecuteListViewRequest(developerNameOrId,limit,offset,sobjectType)
+ExecuteListViewResult(record,column,size)
+ListViewColumn - a single list view column.
+Represents a single row in a list view. - ListViewRecord
+ListViewRecordColumn -  single cell in a row from a list view.
+
+findDuplicates()
+Performs rule-based searches for duplicate records
+All the sObject elements in the input array must have the same type, object type that supports duplicate rules.
+ apply duplicate rules associated with an object to values specified by each sObject
+
+Record ID only - find record with the specified id -> it loads the values from that record, and searches for duplicates based on those values.
+Field Map only -  loads the values from the map and searches for duplicates based 
+both given - loads any values from that record that aren’t specified in the map, and then loads values from the map , union it 
+find duplicated return FindDuplicatesResult
+
+findDuplicatesByIds()
+IDs, each of which specifies the records for which to search for duplicates. 
+doesn’t find any duplicates for an sObject, 
+the duplicateRule field in DuplicateResult contains the name of the duplicate rule that findDuplicatesByIds() applied, 
+but the matchResults array is empty.
+using the record id get the value and search for the record related duplicate and return object with duplicate results.
+
+includeRecordDetails - false only id returned else all fields in primary compact layout.
+FindDuplicatesResult is returned
+
+getDeleted()
+list of individual records that have been deleted within the given timespan
+used by data replication applications
+
+Deleted records are written to a delete log, 
+A background process that runs every two hours purges records that have been in an organization's delete log for more than two hours
+if limit is reaching
+
+INVALID_REPLICATION_DATE error is returned. If you get this exception, you should do a full pull of the table.
+so earlier  to 2 hours u should run to check for data replication.
+
+getUpdated()
+the list of individual records that have been updated (added or changed) within timespan
+if an opportunity were to become closed, a client application might run a new revenue report.
+latestDateCovered - the value in this field is the start time of that long-running transaction until it completes.
+
+invalidateSessions()
+his call to end one or more sessions.
+
+You can also use logout() to end just one session, the session of the logged-in user
+
+login(string username, string password);
+ add the security token at the end of the user’s password. 
+obtains a sessionId and server URL before making other API calls.
+
+Sets the session ID in the SOAP header so that the API can validate subsequent requests for this session
+
+Multiple client apps can log in using the same username argument.
+A user can have up to 10 query cursors open at a time
+if new one opened ,then the oldest of the 10 cursors is released.
+
+limit is 3,600 calls to login() per user per hour. 
+set the proxy host and port number on the instance of the ConnectorConfig class that you use to log in. 
+
+active self-service users,
+use LoginScopeHeader to specify the Organization ID against which self-service users are authenticated
+
+merge()
+Combines up to 3 records of the same type into 1 record.
+input is an array of MergeRequest elements
+output is a MergeResult object
+If a victim record has related records, merge() makes the master record the new parent of the related records.
+Use queryAll() to view records that have been deleted during a merge.
+The supported object types are Lead, Contact, Account, Person Account, and Individual. 
+To merge more than 3 records, do a successive merge.
+most recently updated data privacy record or data privacy record already associated with the master record.(any 1 picked)
+
+performQuickActions()
+Executes quick actions of type create or update.
+Only one record can be saved at a time.
+
+process()
+array of approval process instances for approval
+array of approval process instances to be approved, rejected, or removed
+
+query()
+Executes a query against the specified object and returns data that matches the specified criteria.
+you should not use describe to populate a select list, if anything added after consume , result error.
+use queryAll() to query on all Task and Event records, archived or not. 
+query(), it automatically filters out all records where isArchived is set to true
+500 rows of data by default.
+increase the default size up to 2,000 in the queryOption header.
+
+queryLocator-specialized string, similar to ID. 
+Used in queryMore() for retrieving subsequent sets of objects from the query results.
+
+ For example, you can have 10 query cursors open and 10 Metadata API cursors at the same time.
+ QueryLocator represents a server-side cursor.
+
+ queryAll()
+Retrieves data from specified objects, whether or not they have been deleted.
+connection.queryMore(qr.getQueryLocator());
+
+can't use queryMore() if a query includes a GROUP BY clause.
+
+OData adapters convert each queryMore() call into an OData query
+that uses the $skip and $top system query options to specify the batch boundary and page size.
+similar to using LIMIT and OFFSET 
+
+retrieve()
+Retrieves one or more records based on the specified IDs.
+retrieve() call to retrieve individual records from an object.
+does not return records that have been deleted
+
+search()
+Executes a text search in your organization’s data.
+Certain objects cannot be searched via the API, such as Attachment objects
+takes sosl query 
+
+undelete()
+Undeletes records from the Recycle Bin.
+Account records can be undeleted, but not AccountTeamMember records.
+
+update()
+Updates one or more existing records in your organization’s data.
+
+Maximum number of duplicate updates in one batch (12 allowed).
+to make it null, you add the field name to the fieldsToNull array in the sObject
+
+upsert()
+On standard objects, this call can use the name of any field with the idLookup field property instead of the external ID.
+this call uses an indexed custom field called an external ID on custom object.
+
+External ID fields cannot be used with merge().
+uses externalIdFieldName and records as input 
+
+
