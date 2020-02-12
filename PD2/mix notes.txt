@@ -157,3 +157,57 @@ In this example, the resource is /ActionTest, not /getAccountNames.
 respect the profile access for the Apex class. If you don’t have access, an error is issued.
 remove the @InvocableMethod annotation from the Apex class, you get a runtime error in the flow.
 
+
+core calls : 
+
+convertLead()
+Converts a Lead into an Account, Contact, or (optionally) an Opportunity.
+permission -> edit on lead ,create and edit on acc,contact,opp.
+a lead can be converted as soon as it becomes a real opportunity that you want to forecast.
+
+if data is merged into existing account, contact, and opportunity objects,
+then only empty fields in the target object are overwritten.
+
+if overwriteLeadSource is true 
+LeadSource field in the target Contact object will be overwritten with the contents of the LeadSource field in the source Lead object.
+
+standard fields auto mapped.
+the default record type of the new owner is assigned to records created during lead conversion
+assigns the default picklist values
+if string is long error thrown , not truncated.
+else 
+use the AllowFieldTruncationHeader SOAP header.
+
+if any error the lead conversion is retried for each lead individually.
+
+the lead owner is unsubscribed from the lead record’s Chatter feed
+unless they have automatic subscriptions enabled in their Chatter feed,they dont subscribe to new rec.
+
+best practice :  after convertLead()
+the client application creates tasks in which the WhoId is the ContactId and, 
+if an opportunity is created, the WhatId is the OpportunityId.
+
+converting leads owned by a queue, the owner must be specified. 
+accounts and contacts cannot be owned by a queue.
+
+syntax:convertLead(List<LeadConvert> ) {max 100}
+
+LeadConvert[] leadsToConvert = new LeadConvert[saveResults.Length]; ;
+LeadConvertResult[] lcResults =binding.convertLead(leadsToConvert);
+
+SELECT Id, MasterLabel FROM LeadStatus WHERE IsConverted=true
+to get all valid lead status
+
+LeadConvert Arguments
+accountId-> if u want to merge to existing acc,not value overwritten.
+contactId-> specify account id and related contact id to merge,overwriteLeadSource true ? leadSource overwritten.
+if to person account dont specify contact.
+doNotCreateOpportunity - > by default oppp created with company name, make true to stop.
+leadId-> 
+opportunityId-> merge to exisiting
+opportunityName-> op name , if no specified  defaults to the company name of the lead.
+dont specify both  opportunityId and opportunityName.
+if doNotCreateOpportunity  is true dont specify oppName.
+ownerId -> owner of new records.
+sendNotificationEmail -> true email for owner 
+
