@@ -704,4 +704,224 @@ if a locking issue prevented Apex code from granting access to a user as defined
 
 For custom objects, this is Public Read/Write. - most permissive level.
 
+Dynamic Apex:
+Understanding Apex Describe Information
+describe sObjects either by using tokens or the describeSObjects Schema method.
+
+Schema.DescribeSObjectResult = returned when performing the describe, using either the sObject token or the describeSObjects method.
+
+token to its describe result, and vice versa is easy.
+sObject and field tokens have the method getDescribe which returns the describe result for that token.
+Describe result, has getSObjectType and getSObjectField methods return the tokens for sObject and field,
+
+tokens are lightweight, using them can make your code faster and more efficient.
+
+Schema.DescribeSObjectResult dsr = Account.sObjectType.getDescribe();
+Schema.DescribeSObjectResult dsr = Schema.SObjectType.Account;
+
+Schema.DescribeFieldResult dfr = Schema.sObjectType.Account.fields.Name;
+dfr.getSObjectField() == Account.Name
+
+ work with describe information in Apex:
+ 1.a list or map of tokens for the sObjects in your organization
+ 2.Determine the sObject you need to access.
+ 3.Generate the describe result for the sObject.
+ 4.generate a map of field tokens for the sObject
+ 5.the describe result for the field the code needs to access.
+
+Schema.SObjectType is the data type for an sObject token.
+Account.sObjectType;
+or a.getSObjectType(); // good way 
+
+RecordType.sObjectType, the field is returned. bcoz have a field called sObjectType.
+
+field : 
+
+Schema.SObjectField fieldToken = Account.Description;
+
+Schema.DescribeFieldResult dfr = Account.Description.getDescribe();
+
+get map of field name and field tokens:
+Map<String, Schema.SObjectField> fieldMap = Schema.SObjectType.Account.fields.getMap();
+
+within an installed managed package fieldDescibe returns Chatter fields even if Chatter is not enabled in the installing organization
+map keys prefixed with the namespace
+
+
+Schema.DescribeSobjectResult[] results = Schema.describeSObjects(new String[]{'Account','Merchandise__c'});
+for(Schema.DescribeSobjectResult res : results) {
+res.isCustom()
+Schema.ChildRelationship[] rels = res.getChildRelationships();
+res.fields.getMap()
+}
+
+tab of apps : 
+List<Schema.DescribeTabSetResult> tabSetDesc = Schema.describeTabs();
+ for(DescribeTabSetResult tsr : tabSetDesc) {
+     String appLabel = tsr.getLabel();
+     List<Schema.DescribeTabResult> tabDesc = tsr.getTabs();
+
+map that represents the relationship between all sObject names (keys) to sObject tokens (values)
+Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
+
+Accessing All Data Categories Associated with an sObject
+
+describeDataCategoryGroups and describeDataCategoryGroupStructures methods 
+to return the categories associated with a specific object:
+
+Dynamic SOQL
+not supported : 
+List<sObject> sobjList = Database.query('SELECT Id FROM MyCustomObject__c WHERE field1__c = :myVariable.field1__c');
+supported : 
+List<sObject> sobjList = Database.query('SELECT Id FROM MyCustomObject__c WHERE field1__c = ' + resolvedField1);
+or
+String myTestString = 'TestName';
+
+List<sObject> sobjList = Database.query('SELECT Id FROM MyCustomObject__c WHERE Name = :myTestString');
+
+prevent SOQL injection, use the escapeSingleQuotes method.
+method adds the escape character (\) to all single quotation marks in a string that is passed in from a user.
+so all single quotation marks are treated as enclosing strings
+
+List<List <sObject>> myQuery = search.query(SOSL_search_string);
+
+String searchquery='FIND\'Edge*\'IN ALL FIELDS RETURNING Account(id,name),Contact, Lead'; 
+List<List<SObject>>searchList=search.query(searchquery);
+
+To provide more context for records in search results, use the SOSL WITH SNIPPET clause
+To use the SOSL WITH SNIPPET clause in a dynamic SOSL query at run time, use the Search.find not search.query
+
+prevent SOSL injection, use the escapeSingleQuotes method. 
+
+dynamic DML : 
+use the newSObject method on an sObject token
+(Account)tokenA.newSObject();
+
+ specify an ID with newSObject to create an sObject that references an existing record that you can update later
+
+Schema.SObjectType targetType = Schema.getGlobalDescribe().get(typeName);
+targetType.newSObject();
+
+SObject s = [SELECT AccountNumber FROM Account LIMIT 1];
+Object o = s.get('AccountNumber');
+s.put('AccountNumber', 'abc');
+
+To set or retrieve the record associated with a foreign key, use the getSObject and putSObject methods.
+SObject c = Database.query('SELECT Id, FirstName, AccountId, Account.Name FROM Contact LIMIT 1');
+SObject a = c.getSObject('Account');
+
+if we dont know the parent record id:
+insert new C1__c(Name = 'x', C2__r = new C2__c(Name = 'AW Computing'));
+
+parentRecord.getSObjects('Contacts'); to get the child records.
+
+
+SOSL : 
+search text, email, and phone fields for multiple objects, including custom objects,
+
+filters: 
+IN: Limits the types of fields to search, including email, name, or phone.
+LIMIT: Specifies the maximum number of rows to return.
+OFFSET: Displays the search results on multiple pages.
+RETURNING: Limits the objects and fields to return.
+WITH DATA CATEGORY: Specifies the data categories to return.
+WITH DivisionFilter: Specifies the division field to return.
+WITH NETWORK: Specifies the community ID to return.
+WITH PricebookId: Specifies the price book ID to return.
+
+Search : 
+across a maximum of 2,000 records
+If the search is global across multiple objects, each object has individual limits that total 2,000 records.
+SOSL applies user permission filters.
+
+IN SearchGroup
+search group : 
+ALL FIELDS
+NAME FIELDS
+EMAIL FIELDS
+PHONE FIELDS
+SIDEBAR FIELDS
+
+UPDATE TRACKING tracks keywords used in Salesforce Knowledge article search.
+UPDATE TRACKING, VIEWSTAT does both.
+
+with snippet 
+org uses Salesforce Knowledge articles, 
+displays contextual snippets and highlights the search term for each article in the search results
+
+eg: 
+FIND {Joe Smith}
+IN Name Fields
+RETURNING lead (name, phone Where createddate = THIS_FISCAL_QUARTER) 
+
+FIND {"Joe Smith" OR "Joe Smythe"}
+IN Name Fields
+RETURNING lead(name, phone), contact(name, phone)
+
+FIND {Joe Sm?th*}
+
+convert currency fields to the user’s currency. 
+FIND {test} RETURNING Opportunity(Name, convertCurrency(Amount))
+
+convertCurrency() cannot be used with the ORDER BY Clause.
+
+apply localized formatting :
+
+FIND {Acme} RETURNING Account(Id, LastModifiedDate, FORMAT(LastModifiedDate) FormattedDate)
+
+FIND {test} RETURNING Account(Name, Id ORDER BY Name LIMIT 100 OFFSET 100)
+
+you’ll need to re-execute the query with a higher offset value.
+
+Account with null name appear last
+FIND {MyAccountName} IN NAME FIELDS RETURNING Account(Name, Id ORDER BY Name DESC NULLS last)
+
+FIND {MyProspect} RETURNING RecordType - unsearchable sobjectType
+
+FIND {MyAcccount} IN ALL FIELDS RETURNING Account(Id, Name USING ListView=ListViewName)
+
+FIND {Joe} RETURNING Lead(company, toLabel(Recordtype.Name))
+
+FIND {Keyword}
+RETURNING KnowledgeArticleVersion (Title WHERE PublishStatus="Online" and language="en_US")
+UPDATE TRACKING
+
+
+ how many hits a Salesforce Knowledge article has had by using the UPDATE VIEWSTAT
+ FIND {Title}
+RETURNING FAQ__kav (Title WHERE PublishStatus="Online" and
+language="en_US" and
+KnowledgeArticleVersion = 'ka230000000PCiy')
+UPDATE VIEWSTAT
+
+
+FIND {Acme} IN ALL FIELDS RETURNING Account(Name USING LISTVIEW = Recent ORDER BY Name ASC NULLS FIRST, Id ASC NULLS FIRST LIMIT 51)
+
+INCLUDES EXCLUDES	Applies only to multi-select picklists.
+
+FIND {tourism} RETURNING FAQ__kav
+    (Id, Title WHERE PublishStatus='online')
+    WITH DATA CATEGORY Geography__c ABOVE France__c
+    AND Product__c AT mobile_phones__c
+
+
+It highlights the terms matching the search query in search result
+FIND {salesforce} IN ALL FIELDS RETURNING Account(Name,Description) WITH HIGHLIGHT
+
+FIND {Acme} RETURNING Account(Id, Name) WITH METADATA='LABELS'
+
+FIND {test} RETURNING User (id),
+                      FeedItem (id, ParentId WHERE CreatedDate = 
+                                THIS_YEAR Order by CreatedDate DESC)
+            WITH NETWORK IN ('NetworkId1', 'NetworkId2', 'NetworkId3')
+
+search in an internal community for users and feed items
+ WITH NETWORK = '0000000000000'
+
+ FIND {San Francisco} IN ALL FIELDS RETURNING KnowledgeArticleVersion(id, title WHERE PublishStatus = 'Online' AND Language = 'en_US')
+ WITH  SNIPPET (target_length=120)
+
+ When set to true, spell correction is enabled for searches that support spell correction.
+
+ FIND {San Francisco} IN ALL FIELDS RETURNING Account WITH SPELL_CORRECTION = false
 
