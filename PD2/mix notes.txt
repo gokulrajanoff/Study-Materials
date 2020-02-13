@@ -527,4 +527,181 @@ including logging levels set by user trace flags, but they don’t cause logging
 API requests that are sent without debugging headers generate transient logs—logs not saved.
 
 Exceptions in Apex:
-    
+
+handle errors in your code, including using assertions like System.assert calls, or returning error codes or Boolean values
+Exceptions bubble up until it reach catch, so no need to write each of methods.
+finally statements- recover from exception , resetting variables and deleting data.
+
+when exception occurs ? 
+code execution halts. 
+Any DML operations that were processed before the exception are rolled back and aren’t committed to the database
+Exceptions that the code doesn’t catch, Salesforce sends an email that includes the exception information
+emails are sent that include the Apex stack trace, exception message, and the customer’s org and user ID
+to the developer specified in the LastModifiedBy field
+Tooling API object ApexEmailNotification.
+only the first email is sent,incase of duplicate exception.
+
+Each catch statement must have a unique exception type.
+one try -> one finally associated.
+At least a catch block or a finally block must be present with a try block. 
+One such exception is the limit exception (System.LimitException) - cant be caught
+assertion statements fail (through System.assert methods) or license exceptions. - cant be caught.
+exceptions are uncatchable, catch blocks, as well as finally blocks if any, aren’t executed.
+unreachable statements in your code will cause compilation errors.
+
+built In exception : 
+DmlException 
+ListException 
+NullPointerException 
+QueryException:
+->such as assigning a query that returns no records or more than one record to a singleton sObject variable.
+SObjectException:-attempting to change a field in an update statement that can only be changed during insert.
+->queries an invoice statement and selects only its Name field. 
+->It then attempts to get the Description__c field on the queried sObject
+
+why getCause returned null?
+there was no previous exception (inner exception) that caused this exception. 
+
+DmlException methods : 
+getDmlFieldNames() -> names of the fields that caused the error for the specified failed record
+getDmlId-> record id
+getDmlMessage-> message
+getNumDml-> no of failed records .
+
+can’t throw built-in Apex exceptions,can only catch them.
+Custom exceptions enable you to specify detailed error messages
+extend the built-in Exception class and 
+make sure your class name ends with the word Exception, such as “MyException” 
+user-defined exception types can form an inheritance tree,
+
+construct exceptions:
+new MyException();
+new MyException('This is bad');
+new MyException(e);
+new MyException('This is bad', e);
+can rethrow the caught exception as an inner exception in your custom exception 
+and have the main method catch your custom exception type.
+
+calling the getCause method-> wont be null now.
+catch a system exception,new MyException('This is bad', e); -> using this throw custom exception with original exception.
+
+Stack trace is  showing  which is the second time an exception was thrown.
+
+Apex Managed Sharing:
+granting a user or group of users permission to perform a set of actions on a record or set of records.
+set an object’s organization-wide default sharing access level
+then 
+grant additional access based on record ownership, the role hierarchy, sharing rules, and manual sharing.
+Most sharing for a record is maintained in a related sharing object,
+
+managed sharing involves sharing access granted by Force.com based on record ownership, the role hierarchy, and sharing rules:
+
+Record Ownership:
+Each record is owned by a user or optionally a queue -> who has automatically granted Full Access
+
+Role Hierarchy:
+role hierarchy enables users above another user in the hierarchy
+to have the same level of access to records owned by or shared with users below
+
+user above owner in role hierarcy has full access to owner records , but can be disabled for specific custom objects
+role hierarchy is not maintained with sharing object records,its runtime.
+
+Sharing Rules:
+Sharing rules are used by administrators to automatically grant users within a (given group
+or role access) to records owned by a specific group of users.
+
+Sharing rules cannot be added to a package
+Sharing rules can be based on record ownership or other criteria
+
+can’t use Apex to create criteria-based sharing rules.
+Also, criteria-based sharing cannot be tested using Apex.
+
+implicit sharing added by Force.com managed sharing -> cant be altered.
+
+Manual Sharing:
+user with Full Access to a record to share the record with a user or group of users.
+generally done by an end-user, for a single record.
+
+Only the record owner and users above the owner in the role hierarchy are granted Full Access to the record
+It is not possible to grant other users Full Access
+
+User managed sharing is removed :
+when record owner changes or 
+when access granted in the sharing does not grant additional access beyond object's organization-wide sharing.
+
+This type of sharing is similar to Force.com managed sharing.
+Only users with “Modify All Data” permission can add or change Apex managed sharing on a record.
+Apex managed sharing is maintained across record owner changes.
+
+Apex sharing reasons and Apex managed sharing recalculation are only available for custom objects.
+
+The Reason field on a custom object specifies the type of sharing used for a record.
+field is called rowCause in Apex or the Force.com API.
+
+displayed reason for Apex managed sharing is defined by the developer.
+the most permissive level of access is used.
+
+Private-> Only the record owner and users above the record owner in the role hierarchy can view and edit the record. 
+This access level only applies to the AccountShare object.
+
+Read Only	->
+Read/Write	->
+Full Access	-> can only be granted with Force.com managed sharing.
+
+AccountShare is the sharing object for the Account object,
+MyCustomObject__Share for custom object 
+
+Objects on the detail side of a master-detail relationship do not have an associated sharing object.
+detail record’s access is determined by the master’s sharing object and the relationship’s sharing setting.
+
+share object : 
+supporting all three types of sharing: Force.com managed sharing, user managed sharing, and Apex managed sharing. 
+what all not tracked here : 
+organization-wide defaults, 
+the role hierarchy,
+and permissions such as the “View All” and “Modify All” permissions for the given object,
+“View All Data,” and “Modify All Data” for profile.
+
+fields: 
+objectNameAccessLevel -> Edit,Read,All(given only by force managed sharing).
+field must be set to an access level that is higher than the organization’s default access level.
+
+ParentID->
+RowCause->
+UserOrGroupId->
+Apex sharing is not available for Customer Community users. 
+
+rowCause -> jobShr.RowCause = Schema.Job__Share.RowCause.Manual;
+we can create custom also 
+custom object-> New in the Apex Sharing Reasons related list.
+Schema.Job__Share.rowCause.Recruiter__c
+
+User Managed Sharing Using Apex
+it uses the reason manual(default)
+Creating Apex Managed Sharing
+Apex managed sharing is maintained across record owner changes.
+Apex managed sharing must use an Apex sharing reason.
+Apex sharing reasons are a way for developers to track why they shared a record with a user or group of users
+share with the same user or group multiple times using different reasons.
+
+inserting a share row results in an update of an existing share row.
+->If a manual share access level is set to Read,new one that’s set to Write, original share rows are updated to Write.
+->users can access an account because they can access its child records.
+an account sharing rule is created,row cause of the parent implicit share is replaced by the sharing rule row cause(defined by us)
+
+Recalculating Apex Managed Sharing:
+
+Salesforce automatically recalculates sharing for all records on an object 
+when its organization-wide sharing default access level changes
+The recalculation adds Force.com managed sharing when appropriate.
+all types of sharing are removed if the access they grant is considered redundant
+
+go to classic to see this: apex sharing reason and recalculcation realted list 
+must write an Apex class that implements a Salesforce-provided interface(Database.Batchable<sObject>) to do the recalculation
+
+if a locking issue prevented Apex code from granting access to a user as defined by the application’s logic
+- recalcualted.
+
+For custom objects, this is Public Read/Write. - most permissive level.
+
+
