@@ -1127,3 +1127,8 @@ Avoid the AlphaImageLoader filter. It blocks rendering and freezes the browser w
 applies per element, not per image, so the problem multiplies.
 
 use <link> instead of @import. Using @import changes the download order and hinders progressive rendering.
+
+REST:
+/vNN.N/composite/batch - execute upto 25 subrequest - improve performance .
+first post request and get request 
+
