@@ -925,3 +925,95 @@ search in an internal community for users and feed items
 
  FIND {San Francisco} IN ALL FIELDS RETURNING Account WITH SPELL_CORRECTION = false
 
+
+Templating with Visualforce:
+reusing similar content across multiple Visualforce pages.
+
+custom components should not be used to define reusable Visualforce pages.
+
+If you want to reuse the content of an entire Visualforce page?
+Defining Templates with <apex:composition>
+Referencing an Existing Page with <apex:include>
+
+Defining Templates with <apex:composition>
+<apex:composition> must have one or more child <apex:insert> tags.
+This templating method is best for situations when you want to maintain an overall structure to a page, 
+but need the content of individual pages to be different, such as a website for news articles.
+
+An <apex:insert> tag indicates to pages that import the template that a section needs a definition.
+imports a template using <apex:composition> must use <apex:define> to specify the content of each <apex:insert> section of the template.
+
+template page : myFormComposition
+has 
+<apex:insert name="age" />
+
+our page : 
+<apex:composition template="myFormComposition"> 
+<apex:define name="age">
+    <apex:outputLabel value="Enter your age: " for="ageField"/>
+    <apex:inputText id="ageField" value="{!ageField}"/>
+</apex:define>
+</apex:composition>
+
+field is still imported, even without a matching <apex:define> field.
+
+assign a template through a PageReference. 
+from controller : 
+ return Page.myAppliedTemplate;
+
+<apex:composition template="{!myTemplate}">
+
+Referencing an Existing Page with <apex:include>:
+<apex:include pageName="formTemplate"/>
+we can use the attribute defined in the template in the calling page. bczo it will be imported fully.
+
+Understanding Test Data:
+caller cant see org data in test class , so called class also cant see if its old version also
+
+If a test makes a Visualforce request,
+the executing test stays in test context but runs in a different thread, so test data isolation is no longer enforced
+
+VLOOKUP validation rule also see only test data.
+inserting CollaborationGroup sObjects with the same names results in an error. 
+record updation don't result in the creation of FeedTrackedChange records.
+Field history tracking records (such as AccountHistory) can't be created in test method.
+
+Test.loadData method, you can populate data in your test methods without having to write many lines of code.
+List<sObject> ls = Test.loadData(Account.sObjectType, 'myResource');
+myResource-static resource name.
+
+Test Utility Classes 
+They can be called by test methods but not by non-test code.
+class has @Istest to avoid code limits
+method normal method.
+call this in testMethod.
+
+Test Setup Methods:
+test setup methods (methods that are annotated with @testSetup) to create test records once and
+then access them in every test method in the test class
+can reduce test execution times 
+rolled back at the end of test class execution.
+@testSetup static void methodName() {
+
+}
+
+If a test setup method calls a non-test method of another class, 
+no code coverage is calculated for the non-test method.
+
+Testing Custom Controllers and Controller Extensions:
+writing unit tests for controller extension and custom controller classes, 
+you can set query parameters that can then be used in the tests.
+
+PageReference pageRef = Page.success;
+Test.setCurrentPage(pageRef);
+
+
+Add parameters to page URL
+ApexPages.currentPage().getParameters().put('qp', 'yyyy');
+
+thecontroller controller = new thecontroller();
+String nextPage = controller.save().getUrl();
+
+/ Verify that page fails without parameters
+System.assertEquals('/apex/failure?error=noParam', nextPage);
+
