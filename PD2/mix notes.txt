@@ -1017,3 +1017,113 @@ String nextPage = controller.save().getUrl();
 / Verify that page fails without parameters
 System.assertEquals('/apex/failure?error=noParam', nextPage);
 
+Best Practices for Optimizing Visualforce Performance
+
+Visualforce pages can’t exceed the 15 MB standard response limit,
+use the with sharing keyword to retrieve only the records the user can access.
+StandardSetController Built-In Pagination
+Use the SOQL OFFSET clause to write logic that paginates to a specific subset of results within SOQL.
+, avoid using data grids, which display many records with editable fields.
+if u need grid : 
+Only display essential data for a given record, and provide a link for an Ajax-based details box or separate page to view the rest
+make data read-only to reduce the view state size.
+
+use lazy loading, a technique in which a page loads its essential features first and delays the rest
+To lazy load parts of a Visualforce page:
+Use the rerender attribute on Visualforce components to update the component without updating the entire page.
+Use JavaScript Remoting to call functions in your controller through JavaScript,(get static data)
+Create a custom component to show and hide data according to user actions.
+
+consider the number of users and amount of data you expect to use
+if a navigation tree only loads elements as needed,
+the number of queries might end up out of proportion to the data.
+
+Offloading Processing to Asynchronous Tasks
+
+Improve the performance of such pages by caching calculation results in a custom setting 
+and refreshing the results periodically instead of upon every request. 
+
+Custom settings are part of an application’s cache and do not require a database query for retrieval.
+Perform calculations in SOQL instead of in Apex, whenever possible.
+Filter in SOQL first, then in Apex, and finally in Visualforce
+
+dont do this : 
+<apex:column value="{!position.name}"
+         rendered="{!IF(position.Status__c == 'Open - Approved', true, false)}"/>
+
+Cache the value of a property calculation so that additional calls to access the property can use the cached value, 
+and configure the getters in your Apex classes to only query for data if the object is null.
+
+Optimizing the View State:
+Lightning Platform includes the state of components, field values, and controller state in a hidden form element.
+This encrypted string is the view state and has a limit of 170KB. 
+
+transient keyword in your Apex controllers for variables 
+that aren’t essential for maintaining state and aren’t necessary during page refreshes.
+
+large percentage of your view state comes from objects,refining your SOQL calls
+try reducing the number of components your page depends on.
+
+Use filters and pagination to reduce data requiring state.
+Decide if some data can be read-only and use the <apex:outputText> component 
+
+Use JavaScript remoting. Unlike the <apex:actionFunction> component, 
+JavaScript Remoting does not require a form component.
+without the need to transmit, serialize, and deserialize the view state
+tradeoff is the loss of the re-render attribute and the additional JavaScript code to handle callbacks.
+
+Optimizing Component Hierarchies
+Deeply nested components incur the highest processing costs.
+limit the nesting of custom components to logically organize functionality
+leverage custom components only when that logic is intended for reuse
+because Visualforce maintains context throughout the entire request, 
+and traversing component hierarchies consumes time and resources
+
+Optimizing Polling:
+<apex:actionPoller> component is a timer that makes Ajax requests
+increase the value of the interval attribute on the <apex:actionPoller> component
+These concurrent requests might be long-running transactions that block other pending transactions.
+if we open same page multiple times.
+
+pages where the calculations require more server time, 
+consider using the <apex:actionFunction> component with JavaScript Remoting instead
+
+The <apex:actionPoller> component is appropriate on pages that don’t require expensive processing.
+
+Review the HTML that Visualforce components generate
+Visualforce pages require valid HTML and might correct invalid HTML during compilation
+if you have a <head> or <body> tag inside of your <apex:page> tag, the Visualforce page removes it at runtime.
+
+Review Ajax code. 
+During an Ajax request, the server validates and corrects inbound HTML 
+to ensure that the response properly fits back into the DOM. 
+
+Reduce HTML bloat
+browser caches the HTML and compiled Visualforce tags,
+Unnecessary HTML also increases the size of the component tree and the processing time for Ajax requests.
+
+Consider externalizing stylesheets
+putting them in separate CSS files.
+browser caches the stylesheets, the overall request size decreases.
+all CSS files into a single file
+Remove comments and whitespace
+static resources to serve CSS files, as well as images, JavaScript,
+benefit from the caching and content distribution network (CDN) built into Salesforce.
+set the <apex:page> tag’s showHeaders and standardStylesheets attributes to false.
+
+Consider externalizing JavaScript files.
+Build custom versions of JavaScript libraries with only the functions you need
+Put scripts at the bottom of the page. 
+
+For example, do not move JavaScript code snippets requiring document.write or event handlers from the <head> element.
+using a standard HTML <script> tag right before your closing </apex:page> tag instead of using <apex:includeScript>.
+<apex:includeScript> tag places JavaScript right before the closing </head> element,so loading time affected.
+
+Use CSS sprites instead of individual images.
+
+fro Internet explorer : 
+
+Avoid the AlphaImageLoader filter. It blocks rendering and freezes the browser while the image downloads.
+applies per element, not per image, so the problem multiplies.
+
+use <link> instead of @import. Using @import changes the download order and hinders progressive rendering.
