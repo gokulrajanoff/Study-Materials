@@ -1,0 +1,261 @@
+Record-Level Access: Under the Hood
+
+if a user has access to an account field, 
+then they have access to both the account field and the account object itself.
+
+But: 
+a specific account record, such as “Account A”, might not be accessible to that user due to additional access control applied
+via sharing rules or other tools.
+
+understand your user’s perspective and know how to grant users level of access to
+the data that they should be able to access.
+
+2 catagory : 
+object-level access, which includes field-level access, 
+and record-level access
+
+configure object level access on user profiles.
+e “Read,” “Create,” “Edit,” and “Delete” object permissions  - 
+tell they have access to a record and what they can do to the record.
+
+Field-Level Security allows you to prevent certain users from seeing sensitive or confidential
+information contained in records they can see.
+
+Record-level access (called “Sharing” in Salesforce) 
+• Organization-wide defaults
+• Role hierarchy
+• Territory hierarchy
+• Sharing rules
+• Teams
+• Manual sharing
+• Programmatic sharing
+
+300-millisecond Salesforce benchmark for rendering pages.
+Salesforce uses four types of access grants:
+explicit grants, group membership grants, inherited grants, and implicit grants.
+
+Explicit Grants
+when records are shared directly to users or groups , when
+user become record owner.
+sharing rule shares the record 
+assignment rule shares the record
+territory assignment rule share the record
+user manually shares
+user becomes part of a team
+programmatic customization shares the record
+
+Group Membership Grants:
+ when a user, personal or public group, queue, role, or territory is a member of a group that has explicit access to
+the record
+
+Inherited Grants:
+inherits access through a role or territory hierarchy,
+or is a member of a group that inherits access through a group hierarchy
+
+Implicit Grants:
+have access to child -> can see parent. vice versa
+
+Database Architecture:
+Object Record Tables::
+store the records of a specific object, and indicate owner.
+Object Sharing Tables::
+store the data that supports explicit and implicit grants
+
+Both organization-wide default settings (internal and external) are Public Read/Write - no object sharing table available.
+
+Group Maintenance Tables:
+store the data supporting group membership and inherited access grants
+
+eg: 
+Object Sharing table grants Bob explicit access to the Acme account record, 
+Salesforce checks the Group Maintenance tables to see which users inherit record access from Bob and 
+grants users access to the Acme record.
+
+
+ Object Sharing tables store access grants to individuals and groups,
+
+Group Maintenance tables store the list of users or groups that belong to each group, indicating group membership.
+
+if a record is returned then -> the record must exist, 
+and either the Object Sharing table or the Group Maintenance tables must grant access to the querying user.
+
+Object Sharing tables simply store each access grant in separate rows called sharing rows, 
+
+Group Maintenance tables are more complex because a single group membership or inherited access grant can give several users
+and groups multiple ways to access a record
+
+Sharing Rows:
+record id
+user id or group id
+level of access
+row cause
+
+If many users have the same record access requirements, it’s efficient to place those users in a group and grant access to the group
+instead of to the individuals
+
+the data that specifies who belongs to each group resides in the Group Maintenance tables
+ These tables store membership data for every Salesforce group, including system-defined groups. 
+
+Salesforce can grant record access to a queue the same way it grants record access to a public group.
+System-defined groups == queue.
+
+ During recalculation, Salesforce creates two types of system-defined
+groups, Role groups and RoleAndSubordinates groups
+
+ If the organization has external organization-wide
+defaults enabled -  RoleAndInternalSubordinates, is created.
+
+
+role -> Used to give managers access to their subordinates’ records
+RoleAndSubordinates -> rule , that share record with role and its subordinated.
+RoleAndInternalSubordinates -> rule , that share record with role and its subordinated, except portal users
+
+Indirect members, who inherit record access from the group’s direct members and are assigned to manager roles
+
+Role groups, direct members are those members assigned to the role the group represents
+role and subordinated group -> direct memeber are those belong to the role.
+
+Territory group, in which users who are assigned to the territory are direct members, while users assigned to territories higher in the
+hierarchy are indirect members
+
+modifying a queue or hierarchy causes Salesforce to recalculate its associated system-defined groups accordingly
+
+when a owner changed the manual sharing will be gone , share with role and subordinated are also gone.
+
+Group Membership Operations and Sharing Recalculation:
+
+administrator moves a user from one branch of the hierarchy to another, following happens
+
+if  first member in his or her new role to own any data, add or remove  user’s data for people who
+are above the user’s new or old role in the hierarchy
+
+remove existing restrictive share record.
+add more premissive share rec.
+
+Salesforce removes any child portal roles
+from the user’s original role and adds them as children to the user’s new role.
+
+also adjusts boss-implicit shares, which provide access in the hierarchy to records owned by or shared to
+portal users
+
+ recalculates all sharing rules that include the user’s old or new role in the source group
+
+ Common Group and Data Updates:
+
+ Moving a role to another branch in the hierarchy
+ benefit :  any portal accounts simply move along with their parent role, and Salesforce doesn’t
+have to change the related sharing.
+
+ Salesforce must do all of the work involved in moving a single user for all
+users in the role being moved and for all of those users’ data.
+
+Changing the owner of a portal account:  When the old and new owners are in different roles, 
+Salesforce is not only moving the portal roles to a new parent role
+but also adjusting the sharing for all the data associated with the portal account
+
+Ownership Data Skew:
+
+ When a single user owns more than 10,000
+records of an object, we call that condition ownership data skew
+
+if u need to have single user with more records , move to top of hiereache , dont change, dont include in public group.
+
+Group Membership Locking:
+
+receive a “could not acquire lock” error and have to repeat the operation. 
+ occurs because the sharing system locks the tables
+holding group membership information during updates to prevent incompatible simultaneous updates or timing issues, 
+
+such as a change in role triggering a sharing rule recalculation—hold lock for long time.
+
+to avoid :
+Scheduling separate group maintenance processes carefully so they don’t overlap
+Implementing retry logic in integrations and other automated group maintenance processes to recover from a failure to acquire a
+lock
+
+By default, granular locking is enabled
+Groups that are in separate hierarchies are now able to be manipulated concurrently.
+Public groups and roles that do not include territories are no longer blocked
+User provisioning can now occur in parallel.
+
+reparenting (moving roles within the role
+hierarchy), still block almost all other group updates.
+
+
+Takeaway: Tuning Group Membership for Performance
+
+When making changes to the hierarchy, process changes to the bottom (leaf) nodes first, then move upward to avoid duplicate
+processing
+using the bulk API, where possible.
+Remove redundant paths of access.
+
+Implicit Sharing:
+Parent:
+Read-only access to the parent account for
+a user with access to a child record
+(Not used when sharing on the child is
+controlled by its parent)
+Child:
+Access to child records for the owner of the
+parent account
+(Not used when sharing on the child is
+controlled by its parent)
+Portal:
+Access to portal account and all associated
+contacts for all portal users under that
+account
+
+High Volume:
+All members of the sharing set access group
+gain access to every record owned by every by high volume user.
+
+High Volume Parent
+see parent and access to child owned by HV user.
+
+Parent-Child Data Skew:
+
+Problem #1: Losing Access to a Child Record Under a Skewed Account:
+account has 30k children contact. i own a contact,so i can see parent.
+i lose the contact record, now SF need to see all the remaining 29k to check whether to give access to parent or not.
+
+Problem #2: Losing Access to the Skewed Parent Account:
+lose parent account , lose all the children.
+
+Record-Level Locking:
+
+so customers must still be careful not to run updates to the same collections of records in multiple threads.
+
+same records are not updated in multiple threads simultaneously including parent child.
+
+Tuning Data Relationships and Updates for Performance:
+Use a Public Read Only or Read/Write organization-wide default sharing model for all non-confidential data.
+configure child objects to be Controlled by Parent, to avoid implicit share.
+addition of retry logic is sufficient to solve the locking error.
+
+Sequence operations on parent and child objects by ParentID and ensure that different threads are operating on unique sets
+of records.
+
+Parallel Sharing Rule Recalculation
+ when an administrator creates, deletes, or edits a sharing rule, the recalculation required to make those changes take effect
+is processed synchronously
+
+Deferred Sharing Maintenance:
+
+start of the maintenance window, the administrator uses the deferral feature to essentially “turn off” processing of group
+maintenance operations, and then makes all the desired changes to role and group membership at the same time.
+
+then , the administrator resumes processing group maintenance
+
+The cascading effects to implicit shares continue to be processed immediately when sharing rules are
+changed by administrators or through the code
+
+On the other hand, if you are able to
+negotiate downtime with your business customers and have been struggling to complete updates in a timely fashion, deferred sharing
+might be a great solution to your problem
+
+affecting your overall realignments schedule, consider using parallel recalculation of
+sharing rules
+
+While making your decision, remember that deferring organizational maintenance will require recalculating sharing
+rules for all objects.
+
