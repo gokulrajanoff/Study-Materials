@@ -259,3 +259,91 @@ sharing rules
 While making your decision, remember that deferring organizational maintenance will require recalculating sharing
 rules for all objects.
 
+
+Security : 
+without sharing -  Generally only recommended for classes doing reporting or data aggregation
+Inherit sharing from calling class. Not recommended for Visualforce controllers or Web services. 
+
+Visualforce Escaping Functions
+{!HTMLENCODE($Request.title)}
+
+JSENCODE - Escapes data for use in JavaScript quoted strings. 
+JSINHTMLENCODE - Escapes data for use in JavaScript quoted strings that will be used in HTML tags.
+HTMLENCODE - Escapes data for use in HTML tags
+URLENCODE - Escapes data for use in URLs according to RFC 3986 syntax.
+
+Custom Setting Methods:
+Special objects and field methods that support a “protected” mode
+for storing sensitive information like encryption keys.
+
+getAll() -=  map of the data sets defined for the custom setting(LIST)
+getInstance() = Returns the “lowest level” custom setting data set based on user/profile.(LIST)
+getValues() - Returns only the custom setting data set.
+getOrgDefaults() ->custom setting data set for the organization (HIERARCHY).
+
+crypto class : 
+encrypt() - encrypt  Blob clearText using the specified algorithm, private key, and initialization vector[IV](own)
+encryptWithManagedIV()  -> same as above , but SF create IV.
+decrypt()
+decryptWithManagedIV()
+
+generateAesKey() - key
+generateDigest() - hash ,  based on the supplied input string and algorithm name.
+generateMac() -  message authentication code (MAC) for the input string, using the private key and the specified algorithm
+getRandomInteger()
+getRandomLong()
+sign() - a unique digital signature for the input string, using the specified algorithm and the supplied private key.
+signWithCertificate() - with certificate.
+
+Lightninig guide : 
+
+{!c.change} calls a client-side controller and {!v.myText}
+refers to a component attribute value. {!v.body} outputs the
+body of the component, which is an array
+of components. 
+
+The Aura object is the top-level object in the JavaScript framework
+code. $A is shorthand for Aura. 
+
+$A.get() - app level event .
+$A.enqueueAction() - enqueue for batch execution 
+$A.createComponent() - dynamically create component.
+$A.getCallback() - a setTimeout() call.
+
+<aura:component implements="force:appHostable"> add a Lightning component to Salesforce1 Mobile App
+
+
+Query Optimization : 
+indexed fields : 
+Id, name , masterdetail , lookup , record type ,unique , external id.
+
+Query optimizer : 
+standard index :  30% (1m) + 15%(after 1 million)
+custom index :  10% (1m) + 5%(after 1 million)
+
+REST with related to record: 
+/services/data/vNN.N/sobjects/
+
+error code :
+300 - more than one rec has same externa id .
+400 - error in JSon.
+401 - exprired session id.
+403 - refuesd, user permission.
+404 - resource not found.
+
+success : 
+200 - processed.
+201 - processed ,created.
+204 - successfuly deleted.
+
+
+
+Lightning data service - data with aura : 
+create, read, and update - force:recordData.
+delete  - force:recordData
+
+Lightning Data Service:
+handles sharing rules and field-level security for you.
+Records loaded in Lightning Data Service are cached and shared across components.
+
+force:recordData doesn’t include any UI elements; it’s simply logic and a way to communicate to the server
