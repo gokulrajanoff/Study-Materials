@@ -73,7 +73,7 @@ Create Object-Specific Actions :
 
 flow is there in object specific action
 Object-specific actions are only available on page layouts for that object. 
-For example, you can add the only to the group publisher layout.
+For example, you can add the  the New Group Member action only to the group publisher layout.
 
 creates a record by using an object-specific create action, a feed item for that record appears:
 The Visualforce page for an object-specific custom action must include the standard controller for the relevant object.

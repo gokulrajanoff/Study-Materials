@@ -87,7 +87,7 @@ if a Visualforce page calls a Web service that contains the @ReadOnly annotation
 the request fails because Visualforce is the top level request, not the Web service.
 Vf page -> controller with readonly , run as relaxed limit.
 readonly attribute on the <apex:page> tag to true. ->
-  increase other Visualforce-specific limits, such as the size of a collection
+  increase other Visualforce-specific limits, such as the size of a collection -Collection size maximum 1,000.
 
 @RemoteAction
 Apex methods used in Visualforce to be called via JavaScript.
