@@ -8,3 +8,9 @@ http://resources.docs.salesforce.com/rel1/doc/en-us/static/pdf/SF_Rest_API_cheat
 https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/data.htm
 https://developer.salesforce.com/blogs/developer-relations/2011/05/tale-of-two-visualforce-pages-actionfunction-and-javascript-remoting.html
 https://resources.docs.salesforce.com/sfdc/pdf/salesforce_large_data_volumes_bp.pdf
+
+VF : 
+controller , extension 
+action poller
+action funstion 
+acction support
