@@ -1,0 +1,3 @@
+in Test class 
+Test.setCurrentPage(pageRef); // throw error saying method doest not exists
+it means u have create a class called Test.
