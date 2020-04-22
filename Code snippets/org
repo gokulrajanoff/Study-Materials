@@ -1,3 +1,7 @@
 delete debug logs :
 $ sfdx force:data:soql:query -q "SELECT Id FROM ApexLog" -r "csv" > out.csv
 $ sfdx force:data:bulk:delete -s ApexLog -f out.csv
+
+to know what kind of access the user has to the record : 
+if read access only he will get if he query 
+[select id, name,UserRecordAccess.HasEditAccess,UserRecordAccess.HasAllAccess from sobject];
