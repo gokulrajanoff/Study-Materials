@@ -1,6 +1,6 @@
 HTML 5 elements - main - SEO easy of use.
 <a href="#"> create dead link
-<input> <img> self closing tags
+<input> <img> <hr>  self closing tags
 
 radio and radio button group example(same for checkbox):  // must be surrounded by form element. 
 <label for="indoor">
@@ -15,87 +15,9 @@ The ! and uppercase DOCTYPE is important, especially for older browsers. The htm
 <html>
 </html>
 
-CSS is case-sensitive 
-font-family : FAMILY_NAME,GENERIC NAME;
-  //eg: font-family: Lobster , "Open Sans"
-
-.thick-green-border {
-    border-color: green;
-    border-width: 10px;
-    border-style: solid;
-    border-radius: 10px;
-  }
-to make circular : {
-    border-radius: 50%;
-}
-style of Id > Style of class .
-
-padding controls the amount of space between the element's content and its border
-margin controls the amount of space between an element's border and surrounding elements. 
-If you set an element's margin to a negative value, the element will grow larger.
-
-if margin is  positive shirnk inside the div
-if margin is negative grow inside or outside the div.
-
-padding : top right bottom left;
-margin : top right bottom left ; // margin : 40px 20px 20px 40px;
-The two main types of length units are absolute and relative.
-Absolute units tie to physical units of length. 
-For example, in and mm refer to inches and millimeters, 
-
-Relative units, such as em or rem, are relative to another length value. 
-For example, em is based on the size of an element's font.
-If you use it to set the font-size property itself, it's relative to the parent's font-size.
-
-overriding styles: 
-if a body has css , and element has seperate css -> elements css will be applied.
-
-if elements has 2 css class -> then the one which is declared last in css will be applied.
-->the browser will look at the declaration order and not the order of their use!
-
-if elements has id and css associated with id -> that will have more precedence and applied.
-
-if there is any inline style that will be applied even if id are css class is there.
-
-.pink-text {
-    color: pink !important;
-}
-this css will be applied no matter inline, or id is specified. !important take higher precendence.
-
-CSS, we can use 6 hexadecimal digits to represent colors, two each for the red (R), green (G), and blue (B) components. 
-For example, #000000 - black.
-we can create over 16 million other colors!
-
-we can reduce the 6 digits to 3 . 1 for each RGB.
-we can create over 4000 colors.
-#FF0000 and #F00 as exactly the same color.
-
-color : rbg(255,0,255);
-
-css varible : 
-
---penguin-skin : pink;
-
-usage:
-body : var(--penguin-skin,black); black will be applied if variable is not found(it should be exact match)
-
-Internet Explorer will ignore CSS variable because it does not support CSS variables.
-workaround: declare a know way to set style , one line before css variable usage.
-background:red;
-background:var(--red-text);
-
-CSS variables are inherited, just like ordinary properties.
-
-:root is a pseudo-class selector that matches the root element of the document, usually the html element.
-if u decalre a css variable in root , it will be avaialble globally.
-
-if u again declared css var in child elements , that will be applied.
-
-media Query : 
-@media (max-width: 350px) {
-    :root{
-
-    }
-}// if the max width is below 350 px, css variable declred inside this will be used.
-else the matching media query root css declared variable will be used.
-
+<Strong> - font-weight: bold;
+<u>      - text-decoration: underline;
+<a>      - tag has default underline formatting.
+<em>     - font-style: italic;
+<s>      - text-decoration: line-through;
+<hr>     - add horizontal line , self closing tag.
