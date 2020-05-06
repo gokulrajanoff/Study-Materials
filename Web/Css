@@ -1,7 +1,9 @@
 CSS is case-sensitive 
 font-family : FAMILY_NAME,GENERIC NAME;
   //eg: font-family: Lobster , "Open Sans"
-font-size:27px;
+font-size:27px; 
+font-weight:200; // thickness
+line-height:25px; // vertical spacing between lines
 
 .thick-green-border {
     border-color: green;
@@ -95,3 +97,63 @@ Opacity : 0.7 ;
 text-transform:uppercase;
 lowercase , uppercase , capitalize, initial, inherit(use same as parent) , none;
 
+A pseudo-class is a keyword that can be added to selectors,
+in order to select a specific state of the element.
+
+a:hover {
+  color: red;
+}
+
+When the position of an element is set to relative, 
+it allows you to specify how CSS should move it relative to its current position in the normal flow of the page. 
+It pairs with the CSS offset properties of left or right, and top or bottom.
+
+Changing an element's position to relative does not remove it from the normal flow
+ - other elements around it still behave as if that item were in its default position.
+
+h1 {
+    position: relative:
+    top:10 px;   // push element 10 px towards down
+    bottom:10 px;   // push element 10 px towards up
+    left:10 px;   // push element 10 px towards right
+    right:10 px;   // push element 10 px towards left
+}
+
+position property is absolute, 
+which locks the element in place relative to its parent container. 
+
+absolute positioning is that it will be locked relative to its closest positioned ancestor.
+
+absolute removes the element from the normal flow of the document, so surrounding items ignore it.
+
+ If you forget to add a position rule to the parent item, (this is typically done using position: relative;),
+ the browser will keep looking up the chain and ultimately default to the body tag.
+
+fixed position similar to absolute , but wont move when we scroll.
+
+Lock an Element to the Browser Window with Fixed Positioning: 
+.navBar{
+      position:fixed;
+      top:0px;
+      left:0px;
+}
+
+Floating elements are removed from the normal flow of a document and 
+pushed to either the left or right of their containing parent element. 
+It's commonly used with the width property to specify how much horizontal space the floated element requires.
+
+#left {
+      float:left;
+      width: 50%;
+}
+#right {
+      float:right;
+      width: 40%;
+}
+
+z-index: whole number , bring elements up the stacks.
+
+Center the div on the page :
+div {
+    margin:auto;
+}
