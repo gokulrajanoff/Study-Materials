@@ -157,3 +157,112 @@ Center the div on the page :
 div {
     margin:auto;
 }
+
+css gradiant:
+background: linear-gradient(90deg, red, yellow, rgb(204, 204, 255));
+
+code for danger board background color : 
+    background: repeating-linear-gradient(
+      45deg,
+      yellow 0px,
+      yellow 40px,
+      black 40px,
+      black 80px
+    );
+
+pattern for background : 
+background:url("https://cdn-media-1.freecodecamp.org/imgr/MJAkxbh.png");
+
+Increase the size of the element:
+ transform: scale(1.5); // use it on  containers like div to make it big
+
+on hover increase the element size : 
+div:hover{
+    transform:scale(1.1);
+}
+
+ skews the selected element along its X (horizontal) axis by a given degree.
+ transform:skewX(25deg);
+ transform:skewY(25deg);
+ //90 degree gone , 180 - same as it is.
+
+background-color: transparent; // removes the color 
+
+crescent moon : 
+  .center {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    background-color: transparent;
+    border-radius: 50%;
+    box-shadow: 25px 10px 0px 0px blue;
+  }
+
+::before and ::after pseudo-elements. 
+These pseudo-elements are used to add something before or after a selected element.
+.heart::before {   //.heart::after
+    content: "" ;
+    background-color: pink;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: -25px;
+    left: 0px;
+  }
+
+Animation :
+
+#rect {
+animation-name: rainbow;
+  animation-duration: 4s;
+}
+
+@keyframes rainbow {
+  0% {
+    background-color: blue;
+  }
+  50% {
+    background-color: green;
+  }
+  100% {
+    background-color: yellow;
+    left : 25px; use offset to move elemts during animation
+  }
+}
+
+have the style applied when animation ends : 
+animation-name: rainbow;
+animation-duration: 4s;
+animation-fill-mode:forwards; //wont reset it back
+animation-iteration-count:infinite;//or 3
+
+
+transform: scale(1) rotate(-45deg);
+
+same animation which is going infinite but varialbe rates :
+.stars {
+    animation-iteration-count: infinite;
+  }
+
+.star-1 {
+    animation-duration: 1s;
+    animation-name: twinkle;
+  }
+
+.star-2 {
+    animation-duration: 9s;
+    animation-name: twinkle;
+  }
+<div class="star-1 stars"></div>
+
+how the animation happems over a time : 
+animation-timing-function : ease;ease-out;linear;ease-in;
+animation-timing-function: cubic-bezier(0.25, 0.25, 0.75, 0.75); / use this for more finer control
+
+animation value for juggling ball: 
+animation-timing-function: cubic-bezier(0.311, 0.441, 0.444, 1.649);
