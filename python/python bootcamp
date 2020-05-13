@@ -1,0 +1,32 @@
+>>>type(5) 
+<class 'int'>
+
+order of expression calculation : 
+PEMDAS
+P-parenthesis
+E-Exponents
+M-Multiplication
+D-Division
+A-addition
+S-Subtraction
+
+Exponentiation:
+>>> 2 ** 3 
+8
+
+modulus : 
+>>> 10 % 3
+1
+
+integer division : 
+>>> 10 // 3 
+3  # instead of 3.333333
+# it floors , so its always rounds down.
+
+variable name are case sensitive
+lower case , underscore between words , full caps constants.
+camel case for class names 
+__no_touch_variable__  -> private variable dont touch.
+
+Boolean -> True , False , must be capital.
+
