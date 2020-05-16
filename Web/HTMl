@@ -50,3 +50,36 @@ show charts , data visualization :
 
 The fieldset tag surrounds the entire grouping of radio buttons to achieve this. 
 It often uses a legend tag to provide a description for the grouping, 
+
+<time datetime="2016-09-15">Thursday, September 15<sup>th</sup></time>. - will read out the date to screen reader
+
+display: none; or visibility: hidden;-> hides content for everyone, including screen reader users
+width: 0px; height: 0px; removes that element from the flow of your document,
+meaning screen readers will ignore it
+
+css class for things to visible only for screen reader and visually hidden : 
+.sr-only {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  top: auto;
+  overflow: hidden;
+}
+
+recommended 4.5 to 1 contrast ratio for normal text. 
+4.5:1 contrast ratio can be reached by shading (adding black to) the darker color and 
+tinting (adding white to) the lighter color
+
+accesskey attribute to specify a shortcut key to activate or bring focus to an element. 
+<button accesskey="b">Important Button</button>
+
+using tabindex also enables the CSS pseudo-class :focus to work on the  tag.
+ <p tabindex="0">Instructions: </p>
+ p:focus {
+    background-color: yellow;
+  }
+  click tab it will turn yellow when its on focus
+
+  Setting a tabindex="1" will bring keyboard focus to that element first.
+  
