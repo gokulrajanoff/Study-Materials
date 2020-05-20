@@ -332,5 +332,88 @@ align-self:flex-end;
 align-self:center; // accept all parameters as align-items
 
 
+In CSS Grid, the parent element is referred to as the container and its children are called items.
+display:grid;
 
+grid-template-columns: 100px 100px 100px;
+The number of parameters given to the grid-template-columns property indicates the number of columns in the grid, 
+and the value of each parameter indicates the width of each column.
+
+grid-template-rows: 50px 50px;
+same way to define the rows , if not specified decided based on the columns.
+
+grid-template-columns: auto 50px 10% 2fr 1fr;
+other accetpted values
+fr: sets the column or row to a fraction of the available space,
+%: adjusts the column or row to the percent width of its containe
+
+grid-column-gap: 20px;
+gap between columns 
+
+grid-row-gap:5px;
+gap between rows
+
+grid-gap:10px; //for row and columns same values
+grid-gap:10px 20px; // row and columns seperate values
+
+
+grid-column: 2 / 4; 2 is the stating line , 4 is the ending line; on column
+
+grid-row: 2/4; 2 is the stating line , 4 is the ending line; on rows
+
+justify-self:center; //start or end other value 
+used in the indivualy cell to place it within the cell, horizontally.
+
+align-self:end;
+used in the indivualy cell to place it within the cell, vertically.
+
+justify-items:center; // use it on container to apply to all items
+align-items:center; // use it on container to apply to all items
+
+grid-template-areas:
+  "header header header"
+  "advert content content"
+  "footer footer footer";
+
+group cells of your grid together into an area and give the area a custom name.
+
+.item1 {
+  grid-area: header;
+}
+we can place the item in certian area , it will take up the entire space.
+
+grid-area: horizontal line to start at / vertical line to start at / horizontal line to end at / vertical line to end at;
+grid-area: 1/1/2/4;
+
+grid-template-rows: repeat(100, 50px);
+will create 100 row grid, each row at 50px tall.
+
+grid-template-columns: repeat(2, 1fr 50px) 20px;
+will be converted to 
+grid-template-columns: 1fr 50px 1fr 50px 20px;
+
+
+grid-template-columns: 100px minmax(50px, 200px);
+first column 100px , second column min 50 max 200 px.
+
+grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+cell min size is 60px and max is 1 fr , if unable to fill all cell in same row with 60 px
+make new row automatically.
+
+auto-fit - stretches your items to fit the size of the container.
+grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+prefered auto-fit;
+
+change layout based on the width : 
+@media (min-width: 400px){
+    .container{
+      grid-template-areas:
+        "header header"
+        "advert content"
+        "footer footer";
+    }
+  }
+
+
+we can have a grid within a grid.
 
