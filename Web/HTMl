@@ -2,6 +2,14 @@ HTML 5 elements - main - SEO easy of use.
 <a href="#"> create dead link
 <input> <img> <hr>  self closing tags
 
+<label id="name-label" for="name">Name</label>
+      <input
+        type="text"
+        name="name"
+        id="name"
+        placeholder="Enter your name"
+        required
+      />
 radio and radio button group example(same for checkbox):  // must be surrounded by form element. 
 <label for="indoor">
     <input id="indoor" value="indoor" type="radio" checked name="indoor-outdoor">Indoor

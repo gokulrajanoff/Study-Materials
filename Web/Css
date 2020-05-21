@@ -155,6 +155,7 @@ z-index: whole number , bring elements up the stacks.
 
 Center the div on the page :
 div {
+    display: block; // use especially for images
     margin:auto;
 }
 
