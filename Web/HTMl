@@ -114,4 +114,59 @@ vh (viewport height): 3vh would be 3% of the viewport's height.
 vmin (viewport minimum): 70vmin would be 70% of the viewport's smaller dimension (height or width).
 vmax (viewport maximum): 100vmax would be 100% of the viewport's bigger dimension (height or width).
 
+HTML GEOLOCATION API :
+
+code : 
+<div id="poistion">
+</div>
+<div id="mapholder" style="width:100%;height: 400px;">
+</div>
+
+//get this link and API from google console
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=[apiKey]&callback=initMap">
+</script>
+
+//js code: 
+	let x = document.getElementById("poistion");
+
+function initMap(){
+	if(navigator.geolocation){
+		navigator.geolocation.getCurrentPosition(showPosition,showwerror);
+	}
+}
+	function showPosition(position){
+		x.innerText = position.coords.latitude+'(-)'+position.coords.longitude+'(-)'+position.coords.accuracy+'(-)'+position.coords.altitude+'(-)'+position.coords.altitudeaccuracy+'(-)'+position.coords.heading+'(-)'+position.coords.speed+'(-)'+position.timestamp;
+		var mapCords = {lat:position.coords.latitude,lng:position.coords.longitude};
+		var map = new google.maps.Map(document.getElementById("mapholder"),{Zoom:5,center:mapCords});
+		var marker = new google.maps.Marker({position:mapCords,map:map});
+	}
+
+	function showwerror(error) {
+		switch(error.code){
+			case error.PERMISSION_DENIED:
+				x.innerText="PERMISSION_DENIED";
+				break;
+			default:
+				x.innerText="unon eror";
+				break;
+		}
+	}
+
+diff error codes : 
+PERMISSION_DENIED , POSITION_UNAVAILABLE , TIMEOUT, UNKNOWN_ERROR.
+
+position object properties : 
+position.coords.latitude
+position.coords.longitude
+position.coords.accuracy
+position.coords.altitude
+position.coords.altitudeAccuracy
+position.coords.heading (degree clockwise from north)
+position.coords.speed(mps)
+position.timestamp
+
+navigator.geolocation.getCurrentPosition(showPositionFunction(Postion argument),showError(Error argument));
+to continuously monitor :
+navigator.geolocation.watchPosition(showPositionFunction(Postion argument),showError(Error argument));
 
