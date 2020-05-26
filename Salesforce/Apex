@@ -28,7 +28,7 @@ c.message();
 
 if we want to have a abstract methods class must have abstract. 
 abstract class can also have multiple virtual methods.
-abstract methods should not have definition 
+abstract methods should have definition not implementation 
 class extending the abstract class must implement the abstract methods.
 methods implementing the abstract methods must use override keywords.
 methods implementing the virtual methods must use override keywords.
