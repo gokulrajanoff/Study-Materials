@@ -170,3 +170,30 @@ navigator.geolocation.getCurrentPosition(showPositionFunction(Postion argument),
 to continuously monitor :
 navigator.geolocation.watchPosition(showPositionFunction(Postion argument),showError(Error argument));
 
+HTML drag Drop api : 
+
+//code 
+<div id="start" draggable ondragstart="drag(event)">
+	red
+</div>
+
+<div id="end" ondragover="dragOver(event)" ondrop="drop(event)">
+</div>
+
+//js code: 
+function drag(ev){
+		console.log(ev.target.id);
+		ev.dataTransfer.setData("movingText",ev.target.id);
+	}
+	function dragOver(ev){
+		ev.preventDefault();
+	}
+	function drop(ev){
+		ev.preventDefault();
+		let id = ev.dataTransfer.getData("movingText");
+		document.getElementById("end").append(document.getElementById(id));
+
+	}
+
+make the elements draggable with attribute draggable:
+events : ondragstart,ondragover,ondrop
