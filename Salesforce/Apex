@@ -1,0 +1,107 @@
+Running Apex : 
+
+Abstract class : 
+
+code : 
+
+public with sharing abstract class parent {
+    public parent() {
+        system.debug('parent constructor');
+    }
+    public abstract void message();
+}
+
+public with sharing class child extends parent{
+    public child() {
+        super();
+        System.debug('child constructor');
+    }
+    public override void message(){
+        System.debug('from child');
+    }
+}
+
+$$$$$$$$$$$$$$$$$$$$$$$
+parent c = new child();
+c.message();
+
+
+if we want to have a abstract methods class must have abstract. 
+abstract class can also have multiple virtual methods.
+abstract methods should not have definition 
+class extending the abstract class must implement the abstract methods.
+methods implementing the abstract methods must use override keywords.
+methods implementing the virtual methods must use override keywords.
+--> super() must be the first line in child constructor.
+
+virtual class : 
+
+public with sharing virtual class parent {
+    public parent() {
+        system.debug('parent constructor');
+    }
+    
+    public virtual void voice(){
+        system.debug('voice from parent');
+    }
+    
+    public void video(){
+        system.debug('video from parents');
+    }
+}
+
+public with sharing class child extends parent{
+    public child() {
+        super();
+        System.debug('child constructor');
+    }
+
+    public override void voice(){
+        System.debug('voice from child'); 
+        video();  
+    }
+    public void display(){
+        System.debug(' important to note'); 
+    }
+
+}
+
+$$$$$$$$$$$$$$$$$$$$$$$$$
+parent c = new child();
+c.voice();
+c.display(); - will throw error , bcoz parent dont have display property.
+
+child c = new parent(); - will throw error. 
+
+virtual class: 
+virtual class has virtual methods , but no abstract methods.
+class extending the virtual class , no need to compulsory override the virtual methods.
+we can save non virtual class with virtual methods -> no error on save.
+but we can extend the non virtual or non abstract class.
+// but if we defining all the class in Anonymous block , by default they are 
+//considered virtual so we can have class with no virtual definition , but still can be extended and override.
+
+
+
+Anonymous Apex : 
+
+Needed “Author Apex” permission.
+OR way
+Anonymous Apex execution through the API allows restricted access without the “Author Apex” permission.
+
+ExecuteAnonymousResult executeAnonymous(String code)
+
+allowed contents : 
+User Defined Exception 
+User Defined method with no static 
+run as current user respect Object and field level permission.
+scope is limited to Anonymous block , dont use other than local.
+define class or interface in Anonymous , is considered virtual by default , so can be extended and override.
+variable cant be reference before decleration.
+
+User with no Author Apex permission , API allow restricted execution of Anonymous apex.
+
+they can't used user defined code saved in org , like custom class or methods.
+only use - apex built in methods , code in Anonymous block, web serive methods.
+
+
