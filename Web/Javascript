@@ -1,0 +1,19 @@
+seven different data types which are undefined, null, boolean, string, symbol, number, and object.
+declared variable have initial value undefined;
+do a mathematical operation on an undefined variable, result will be NaN which means "Not a Number". 
+concatenate string with undefined variable , result literal "undefined".
+Always Use cameCase.
+    
+    var a = 5;
+	console.log(a); - 5
+	a=a++;
+	console.log(a); - 5
+	a++;
+	console.log(a); - 6
+	a=++a;
+	console.log(a); - 7
+
+// same applies for -- and ++.
+
+Math.floor() , Math.Ceil() 
++= -= *= /= compound arithmetic operation.
