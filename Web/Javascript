@@ -17,3 +17,148 @@ Always Use cameCase.
 
 Math.floor() , Math.Ceil() 
 += -= *= /= compound arithmetic operation.
+\" - to escape quotation inside string.
+
+if we want to keep anchor tag with attribute all in a string. 
+outer quotes = single quote ' 
+attribute value will have double quotes " 
+so we can avoid unnecessary backslashes.
+eg : var myStr = '<a href="http://www.example.com" target="_blank">Link</a>';
+
+Escape characters : 
+\' \" \\ \n \t \r \b \f
+
+\n or \r will create <br> in HTML.
+\f. This is called form feed, is used to indicate to a printer that it should start a new page. 
+\b is word boundary or backslash.
+
++= operator to concatenate a string over several lines.
+var myStr="This is the first sentence. ";
+myStr+="This is the second sentence.";
+
+var lastName = "Lovelace";
+var lengthOfLastNamw = lastName.length;
+firstLetterOfLastName = lastName[0]; // get the character a specific index.
+LastLetterOfLastName = lastName[lastName.length-1];
+if we are travesing from end , second last letter will be (length -2) , so on..
+
+String values are immutable.
+we need to reassign the variable , but cant modify character at specific index.
+
+we can delare array with multiple data types.
+var myArray = ["gokul",25];
+var MultiDimensionArray = ["gokul",["senior SW","Absyz"]];
+
+arrays are mutable and can be changed freely, using index.
+array Manipulation : 
+myArray.push(["gokul",25]); //push at end.
+
+.pop() is used to "pop" a value off of the end of an array. 
+var threeArr = [1, 4, 6];
+var oneDown = threeArr.pop(); /oneDown => 6 
+
+.shift() - removed first element from the array.
+var firstElementRemoved  = threeArr.shift();
+
+unshift() adds the element at the beginning of the array.
+threeArr.unshift(firstElementRemoved);
+
+function testFun(param1, param2) {
+  console.log(param1, param2);
+}
+param1 - is parameter , value of param1 is argument.
+return; - will return undefined ;
+
+var variable are created with global scope.
+if a var varible declared inside the function will have local scope , within the funcion.
+
+Local and global same name -> local will take precedence .
+undefined will be returned if function has no return statement.
+
+queue - > insert at last and remove from first.
+
+"true" - has no special meaning its a string with value "true".
+boolean true is written without quotes.
+
+== equality operator , compares value and return boolean.
+
+Type Coercion -> convert one type to another .
+1   ==  1   // true
+1   ==  2   // false
+1   == '1'  // true
+"3" ==  3   // true
+
+=== Strict equality, no type conversion , 
+return true if value and datatype is same.
+"3" ===  3   // false
+3 ===  3   // true
+
+typeof 3   // returns 'number'
+typeof '3' // returns 'string'
+
+!= not equal operator, type conversion allowed. 
+!== strict not equal operator, no type conversion.
+
+Switch(val){
+	case 1 : 
+	console.log("1");
+	break;
+	default:
+	console.log("default");
+	break;
+}
+case will check with === (strict equality).
+if no break found it exec next case.
+
+
+object data access through properties.
+key can be number or string , non string can be typecasted to string.
+object are mutable.
+
+delete myDog.tails; // to delete a properties in a dog object.
+
+if(obj.hasOwnProperty(checkProp)){
+//property found in object.
+}
+
+recursion : for sum of n numbers 
+function sum(arr, n) {
+  // Only change code below this line
+      if(n<=0){
+        return 0;
+      }
+      else{
+      return sum(arr,n-1)+arr[n-1];
+      }
+  // Only change code above this line
+}
+
+
+
+Math.random(); wil return a random value between 0(inclusive) and 1(exclusive). 1 never returned.
+random number from 0 to 9 - > Math.floor(Math.random()*10);
+
+random number between min and max range both inclusive 
+Math.floor(Math.random() * (max - min + 1)) + min
+
+convert string to integer -> parseInt(str);
+parseInt(string, radix);
+parseInt("11", 2); -> give 3 as result.
+
+ternary : 
+return a==b?"Equal":"Not Equal";
+return num>0?"positive":num<0?"negative":"zero";
+
+countndown recursion : 
+
+function countdown(n){
+  if(n<1){
+    return [];
+  }else{
+
+    var finalArray =countdown(n-1);
+    finalArray.unshift(n);
+    
+    return finalArray;
+  }
+}

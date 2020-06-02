@@ -104,4 +104,8 @@ User with no Author Apex permission , API allow restricted execution of Anonymou
 they can't used user defined code saved in org , like custom class or methods.
 only use - apex built in methods , code in Anonymous block, web serive methods.
 
+Trigger : 
+
+trigger on contact have DML operation , in turn fire trigger -> all these are considered single transation .
+
 
