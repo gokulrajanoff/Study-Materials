@@ -162,3 +162,70 @@ function countdown(n){
     return finalArray;
   }
 }
+
+ES6 : 
+var allows duplicate decleration , without error.
+let throw error on duplicate decleration.
+
+"use strict" -> catch common coding mistake and unsafe actions .
+
+if Let is declared in  block , its scope is limited to the block , unlike var.
+
+const to declare constants, read-Only , Cant reassign.
+eg : const NAME = 'Gokul';
+use UPPSERCASE for const variables.
+
+object(array,function) declared with const are mutable , but cant be reassigned with assignment op.
+
+const s = [5, 6, 7];
+s = [1, 2, 3]; // throws error, trying to assign a const
+s[2] = 45;  // works.
+
+to prevent data mutation -> Object.freeze();
+const MATH_CONSTANTS = {
+    PI: 3.14
+  };
+Object.freeze(MATH_CONSTANTS);
+if we try to change value in MATH_CONSTANTS , we get -> Attempted to assign to readonly property.
+
+Arrow Function : 
+const arrowFn = () => { 
+return "multiLineFunction";
+}
+
+const arrowFnSingle = () =>  "singleLineFunction";
+
+const concatArray = (arr1,arr2) =>{
+  return arr1.concat(2);
+}
+
+const singleParameterFunction = item => item * 2;  //no need of () and {} 
+
+default parameter:
+const increment = (number, value=1) => number + value;
+
+Rest paramenter : 
+have variable paramenter. , pack all argument into array.
+
+const summationWithReduce = (...args) =>{
+	return args.reduce((a,b) => {
+		return a+b;
+	});
+};
+
+const modifyArrayWithMap = (...args) =>{
+	return args.map((x)=>{return x+2;});
+};
+
+const getoddNumberWithFilters = (...args) =>{
+	return args.filter((x)=>{return (x % 2)!=0; })
+};
+
+spread paramenter : 
+unpack array into paramters.
+
+let arr1 = [10,20,30,40,50];
+console.log(summationWithReduce(...arr1));
+
+Math.max(...arr1);
+
