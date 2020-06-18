@@ -410,3 +410,57 @@ makeServerRequest.then(result => {
 })
 
 // this is called chaining.
+
+Regular Expression : 
+pattertn for find -> regex.test(string);
+let myString = "Hello, World!";
+let myRegex = /Hello/;
+let result = myRegex.test(myString);
+
+/Hello/ wont match other cases.
+
+check multiple words : 
+
+let petString = "James has a pet cat.";
+let petRegex = /dog|cat|bird|fish/; // Change this line
+let result = petRegex.test(petString);
+
+to ignore case : 
+let fccRegex = /freecodecamp/i;
+
+match and return and array of the match : 
+
+syntax : string.match(regex);
+
+let extractStr = "Extract the word 'coding' from this string.";
+let codingRegex = /coding/; 
+let result = extractStr.match(codingRegex); //search and extract once .
+
+to seach or extract more than once use /g
+let codingRegex = /coding/ig; //ignore the case and find multiple adn return.
+
+. wild card character to match any one character.
+
+let hugStr = "Bear hug";
+let huRegex = /hu./;
+huRegex.test(humStr); // Returns true
+
+character classes ->  define a group of characters you wish to match
+ by placing them inside square ([ and ]) brackets.
+
+/b[aiu]g/ [aiu] is chracter class match only the character specified.
+
+a range of characters to match using a hyphen character: -.
+a through e you would use [a-e].
+/[0-5]/ matches any number between 0 and 5, including the 0 and 5.
+
+/[a-z0-9]/ig - match all letters and numbers.
+
+characters that you do not want to match. are called negated character sets.
+
+/[^aeiou]/gi matches all characters that are not a vowel
+
+matches all characters that are not a number or a vowel.
+/[^aeiou0-9]/ig;
+
+  

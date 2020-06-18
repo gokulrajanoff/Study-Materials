@@ -1,0 +1,150 @@
+Basic code : 
+new Vue({
+el: '#root',
+data :{
+	greeting : 'Hello Vue'
+}
+});
+
+<div id="root">
+<h1>
+{{ greeting }}
+</h1>
+</div> 
+
+// Hello Vue
+
+2 way data binding is used by Vue.
+double mustash syntax - > parsed by js in Vue object -> data object .
+
+Directives : 
+v-model : 
+    <input v-model="greeting">
+v-if :  (wont be rendered if false)
+    <div v-if="greeting.length === 0">
+    <div v-else-if="greeting.length  < 10">
+    <div v-else>
+
+v-show: (rendered but not shown)
+
+v-bind:htmlAttributes:
+    shorcut => :disabled (same as v-bind:disabled)
+    <button :disabled="greeting.length < 2" onclick="alert('works')">
+
+v-text:
+    <p v-text="greeting"> // similart to innerText
+
+v-html:
+    <p v-html="template">
+
+v-once: //render only once
+    <p v-once>{{email}}
+
+v-for:
+    <ol>
+        <li v-for="cat in cats">{{cat.name}}</li>
+    </ol>
+    // cats : [{name:'Kitten'}]
+Add class dynamically:
+    object syntax : 
+    <button :class="{red: greeting.length <2 , green: greeting.length >2 }">
+    array syntax:
+    <button :class="[greeting.length < 2 ? 'red' : 'green']">
+
+
+call methods on click of button or enter: 
+<input type="text" v-model="newCat" v-on:keyup.enter="addCat">
+<button v-on:click="addCat">+Add</button>
+
+shortcut:
+replace v-on: with @ 
+<input type="text" v-model="newCat" @keyup.enter="addCat">
+<button @click="addCat">
+
+new Vue({
+el: '#root',
+data :{
+	newCat:'',
+	cats:[
+  {name:'Moul'},
+  {name:'kitten'},
+  {name:'coco'}
+  ]
+},
+methods:{
+addCat:function(){
+this.cats.push({name:this.newCat});
+this.newCat='';
+}
+}
+});
+
+Filters : 
+it wont change the data in Vue , just the value will be rendered in DOM as specified.
+example : Capitalize. // will run in the order specified.
+
+<li v-for="cat in cats">{{cat.name | capitalize | namespace}}</li>
+
+add another object to Vue : 
+filters : {
+    capitalize:function(value){
+        return value.toUpperCase();
+},
+    namespace:function(value){
+        return 'gpm_'+value;
+}
+}
+
+Computed : 
+useful full when there is logic on HTML and move to Js . 
+<div>  {{ computedFunction }} </div>
+add another object to Vue
+computed : {
+    computedFunction:function(){
+        return this.newCat+'Y';
+    }
+}
+
+Components : 
+
+props are the attributes for the components that are passed to it.
+in main Vue object pass the component property with a list of component name.
+place the component in html as well and pass the attributes.
+Vue.component('cat-list',{
+		props:['cats'],
+    template:`
+   			<ul>
+        	<li v-for="cat in cats">{{cat.name}} </li>
+        </ul>`
+});
+
+new Vue({
+el: '#root',
+component:['cat-list']
+});
+
+<cat-list :cats="cats"/>
+
+Lifecycle of component : 
+created, mounted, updated, deleted.
+they are function to Vue object 
+new Vue({
+created: function(){
+this.stated.push('created');
+},
+mounted: function(){
+this.stated.push('mounted');
+},
+updated: function(){
+this.stated.push('updated');
+},
+deleted: function(){
+this.stated.push('deleted');
+});
+
+if deleted page will be just a static html , no function will happen.
+
+CLI : 
+Vue --Version
+Vue create
+
