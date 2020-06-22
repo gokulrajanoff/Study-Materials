@@ -148,3 +148,84 @@ CLI :
 Vue --Version
 Vue create
 
+Creating Quiz app : 
+Create component with name.vue in component folders
+import components them in app.vue files
+add the component name to the list of in Vue components.
+add those component to template in app.vue.
+
+3 segments is there in component.vue
+1.template -html
+2.script -js 
+3.style -css
+
+we can have template inside of a main template
+
+in cli based we have 
+date(){
+    return{
+
+    }
+}
+in web fiddler based we have 
+
+data :{
+
+}
+
+fetching api : 
+
+fetch(url,{
+    method:'get' or 'post'
+})
+.then((response)=>{})
+.catch((error)=>{})
+
+if u get response get the json by using response.json() -> return to the chained then and process;
+
+if we are passing data from one component to another : 
+
+while passing data : 
+<template>
+    <question-box 
+    :currentQuestion="questions"
+    :next="next" />
+</template
+
+in question-box component: 
+
+export default{
+    props:{
+        currentQuestion:object,
+        next:Function
+    }
+}
+
+we can pass data as well as function from one compo to another.
+
+v-for will have key to run and display , get index from array  ? 
+<p v-for="(answer,index) in answers" :key="index">
+          {{ answer }}
+</p>
+
+<style scoped>
+.class:hover{ //apply these style when hoverover
+    curson:pointer //make pointer clickable hand
+}
+</style>
+
+these style will not be global , affect only in this component.
+
+watch attribute to componnets calles when a data is changed : 
+
+watch{
+    exactNameOfAttributeToBeWatched:{
+        immediate:true,
+        handler(){
+            this.shuffleAnswers()
+        }
+    }
+}
+
+cant make a change to data variable in computed methods.
+

@@ -1,0 +1,165 @@
+Developer Hyb Fundamentals : 
+
+cant make scratch org without developer hub
+ISV should use the dev hub that come with their PBO (Partner business org.)
+    advantage of using this :
+    we get salesforce limited access free license for creating user for developers.
+    additional scartch org limits.
+
+1.dev hub enable in PBO.
+2. my domain enabled -> deployed for all users.
+3.company info -> salesforce limited access free license (check for info)
+4.register packaging org namespace.
+    -> some object we have after we enabled dev hub
+        active scratch org
+        scartch org info
+        namespace registry
+    ->go to namespace registry
+    -> click link namespace
+    -> log in to packaing org via Oauth.
+our PBO is linked to packaging org.
+
+Salesforce CLI fundamentals : 
+
+1. sfdx force --version
+2. sfdx help force
+
+<!-- important --->
+
+3. sfdx force:auth:web:login -d -a DevHub  
+3.1 sfdx force:auth:web:login -a PkgOrg  
+
+4. sfdx force:limits:api:display -u DevHub
+    ActiveScratOrg - 40 total we can have
+    dailyscratchOrg - 80 no of time a scartch org can be created in a day
+
+Salesforce DX fundaments : 
+
+~ - means home directory 
+config/project-scratch-def.json -> tell developer hub about scratch org.
+
+project-scratch-def.json:
+    edision : developer , enterprise 
+    if our dev hub is in PBO we can have Partner Enterprise , Partner Developer
+
+    features : [MaxApexCodeSize:10] -> 10MB
+
+    org preference setting:
+        s1EncryptedStoragePref2 : false -> disable caching for lighning comp.
+    
+    security setting :
+        sessionTImeOut : twelveHours
+
+to create project : 
+sfdx force:project:create -n my-managed-package
+
+to create scratch org : 
+sfdx force:org:create -a PkgScratch -s -f config/project-scratch-def.json
+
+-s Sets the created org as the default username.
+-f Path to a scratch org definition file.
+
+to open default org : 
+sfdx force:org:open
+
+to delete scratch org :
+sfdx force:org:delete -u PkgScratch
+
+to open a specific alredy linked org : 
+sfdx force:org:open -u PkgOrg
+
+to create managed package : 
+setup -> Package Manager setup item
+open your managed package and add component and upload.
+
+
+to retrieve metadata from packaging org to PBO(dev hub)
+sfdx force:mdapi:retrieve \
+    -u PkgOrg \
+    -p "My Managed Package" \
+    -r mdapi-source \
+    -w 10 \ 
+    -s 
+
+-w wait time in minutes
+-s single package
+-p name of the package not the namespace
+
+we get a .zip file , unzip into the same folder 
+unzip ./mdapi-source/unpackaged.zip -d ./mdapi-source/original-package
+
+convert MDAPI source to SFDX source:
+
+sfdx force:mdapi:convert -r mdapi-source/original-package
+
+we can find the converted files in force-app directory in respective folders.
+
+Creating a namespaced scratch org by updating sfdx-project.json file.
+"namespace": "YOUR_NS_HERE",
+
+to push source to Scratch org : which we create as default
+sfdx force:source:push
+
+Assigned Apps in permission set to add permission to Lightning apps.
+
+to pull data from scratch org to local.
+sfdx force:source:pull 
+
+make sure to delete the profile folder in force-app to ignore unnecessary
+
+convert sfdx source to mdapi source :
+sfdx force:source:convert \
+    -d mdapi-source/updated-package \
+    -n "My Managed Package"
+
+deploy to packaging org :
+sfdx force:mdapi:deploy \
+    -d mdapi-source/updated-package \
+    -u PkgOrg \
+    -l RunLocalTests \
+    -w 15
+
+create a new version of package :
+sfdx force:package1:version:create \
+    -i YOUR_033_METADATAPACKAGE_ID \
+    -n "Winter 2019" \
+    -v "1.1" \
+    -d "Managed beta release. Uploaded via the CLI" \
+    -u PkgOrg \
+    -w 15
+
+create scratch org(without namespace) to install package and test
+sfdx force:org:create -a PkgTest -n -f config/project-scratch-def.json
+
+install package with specific version into our testOrg.
+sfdx force:package:install \
+    -p YOUR_04t_PACKAGE_VERSION_ID \
+    -u PkgTest \
+    -w 15
+
+assign permission set to our user : 
+sfdx force:user:permset:assign -u PkgTest -n "Travel_Expenses_User"
+
+overview :
+
+org: 
+1.PBO org(dev hub)
+2.packaging org
+
+1.create PBO org as dev hub
+2.enable My domain
+3.link namespace to packing org in namespace registry
+4.OAuth to PBO org as default
+5.Oauth to Packing org
+6.retrieve metadata from packaging org to local.
+7.unzip metada zip
+8.convert metadata to force-source
+9.create scratch org 
+10.push to scratch org
+11.pull from scratch org.
+12.convert sfdx source to metdata file.
+13.deploy to packing org
+14.simulate upload by cli to create new version
+15.create test scratch org with no namespace
+16.install new package version in test scratch org to test.
+
