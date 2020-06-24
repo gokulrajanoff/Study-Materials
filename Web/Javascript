@@ -463,4 +463,104 @@ characters that you do not want to match. are called negated character sets.
 matches all characters that are not a number or a vowel.
 /[^aeiou0-9]/ig;
 
-  
+match one or more character (+):
+let myRegex = /s+/g;
+sssg -> gives [sss]
+sgsg -> gives [s,s]
+
+match zero or more character (*):
+let myRegex = /s*/g;
+
+greedy matching : (largest sub-string possible to fit the pattern)
+/t[a-z]*i/
+
+lazy mathing : (smallest possible part of the string to fit pattern)
+/t[a-z]*?i/
+
+add ? to maket it lazy matching
+
+^ if used inside character set [^aeiou] -> used to negate character set
+if used outside of chatacter set -> used to find beginning of string.
+
+let firstString = "Ricky is first and can be found.";
+let firstRegex = /^Ricky/;
+firstRegex.test(firstString);
+// Returns true
+
+search the end of strings using the dollar sign character $ at the end of the regex.
+let theEnding = "This is a never ending story";
+let storyRegex = /story$/;
+storyRegex.test(theEnding);
+// Returns true
+
+$ - end of string 
+^ - start of string
+
+\w - [A-Za-z0-9_] (match all case alphabets and numbers and underscore)
+\W - [^A-Za-z0-9_] (match everything except alphabets number and underscore)
+
+\d - [0-9] (match all numbers)
+\D - [^0-9] (match all non numbers)
+
+\s - search for whitespace [\r\t\f\n\v]
+\S - non whitespace character 
+
+{lower,upper} no of matches
+let ohStr = "Ohhh no";
+let ohRegex = /oh{3,6} no/ig;
+h{3,6}
+h{3,} - atlest 3 
+
+"a".repeat(100)-> a hundered times
+
+Used mostly in spell checking : 
+let rainbowRegex= /colou?r/; 
+if u want to be optional -> zero or 1 apperarance 
+if u is there yes , no there also yes 
+
+Lookaheads: 
+positive lookahead and negative lookahead.
+ search for multiple patterns over the same string
+
+positive lookahead  : 
+  look to make sure the element in the search pattern is there, 
+  but won't actually match it
+  (?=...) ... required part , that is not matched.
+
+negative lookahead : 
+  look to make sure the element in the search pattern is not there.
+  (?!...)  ... is the pattern that you do not want to be there
+
+two or more patterns in one string
+ eg: let checkPass = /(?=\w{3,6})(?=\D*\d)/;
+ //between 3 and 6 characters and at least one number:
+
+eg: passwords that are greater than 5 characters long,
+ do not begin with numbers, 
+ and have two consecutive digits.
+let regex = /(?=\w{5,})(?=^(\D))(?=\w+(\d\d)\w*)/
+
+matching groups :
+
+let repeatNum = "42 42 42";
+let reRegex = /^(\d+)\s\1\s\1$/; // only 3 match allowed
+let result = reRegex.test(repeatNum);
+
+\1 is the first group match eg : \d+ 
+\2 is secong group match eg: \s
+
+replace stings :
+let str = "one two three";
+let fixRegex = /(\w+)\s(\w+)\s(\w+)/; // Change this line
+let replaceText = "$3 $2 $1"; // Change this line
+let result = str.replace(fixRegex, replaceText);
+
+remove whitespace front and end : 
+let hello = "   Hello, World!  ";
+let wsRegex = /^\s+|\s+$/g; // Change this line
+let result = hello.replace(wsRegex,''); // Change this line
+
+or 
+let hello = "   Hello, World!  ";
+let wsRegex = /^(\s+)(.+[^\s])(\s+)$/;
+let result = hello.replace(wsRegex, '$2');
