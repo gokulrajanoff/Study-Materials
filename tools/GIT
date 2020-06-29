@@ -1,0 +1,35 @@
+GiT - Decentralized Version Control tool
+clone entire repositories on their local systems
+Commits are possible even if offline
+track changes made to a file and allows you to revert back to any particular change that you wish.
+
+git fetch ->pulls all new commits from the desired branch and
+stores it in a new branch in your local repository.
+
+Git pull = git fetch + git merge
+
+file -> edit -> staging area(git add) -> commit(git commit) -> git push to remote repo
+
+Stashing - >your modified tracked files and 
+            staged changes and 
+            saves it on a stack of unfinished changes.
+
+git diff  - > differences between various commits
+git status - > between the working directory and index.
+
+
+The git config command can be used to change your Git configuration, including your username.
+
+fork -> Open source project -> fork -> my own server side repo
+->commit to my repo
+->want to merger to original project 
+->Pull request
+
+HEAD is used to refer to the last commit in the currently checked-out branch.
+index/staging area is a single, large, binary file which lists all files in the current branch.
+
+rebase rewrites the commit history in order to produce a straight, linear succession of commits.
+git merge command helps you take the independent lines of development created by git branch 
+    and integrate them into a single branch.
+
+Git reset - undo local changes
