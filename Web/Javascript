@@ -564,3 +564,70 @@ or
 let hello = "   Hello, World!  ";
 let wsRegex = /^(\s+)(.+[^\s])(\s+)$/;
 let result = hello.replace(wsRegex, '$2');
+
+Debugging : 
+
+console.clear()
+
+console.log(typeof ""); // outputs "string"
+
+if (x=y) // will be true always unless y is false
+
+for(i=0;i<n;i++) //best wayh of writing loop.
+
+var a = function; // function itself is assigned to a;
+var b = function(); // return value will be assigned to b;
+
+
+
+Data Structure : 
+Array : 
+splice () 
+  arr.splice(4,) -> remove all element after fourth index 
+  arr.splice(0,1) -> remove only the elments at index 1 
+  
+  to add using splice : 
+  numbers = [10, 11, 12, 12, 15];
+  numbers.splice(startIndex, amountToDelete, 13, 14); //13,14 will be inserted at deleted index.
+
+splice() will modify the array
+slice () wont modify the array and create a new array.
+
+slice(startIndex , UptoIndex[SpecifiedIndex-1])
+
+let fragment = ['to', 'code'];
+best way to combine arrays at any place : 
+let sentence = ['learning',...fragment,'is','fun'];
+
+check elements in array : 
+if(arr.indexOf(elem)!=-1){ if found return index else -1.
+    return true;
+}
+
+setting nested object properties : 
+userActivity.data.online = 45
+userActivity['data']['online'] = 45
+
+delete object keys : 
+delete foods['oranges'];
+delete foods.plums;
+
+check for proerty in object : 
+if(obj.hasOwnProperty('Alan') || 'Jeff' in obj){
+
+}
+
+iterate object : 
+for(const [key,value] of Object.entries(usersObj)){
+    if(value.online){
+      count++;
+}
+
+for(let key in usersObj){
+    if(usersObj[key].online){
+      count++;
+    }
+  }
+
+Object.keys(obj); // return the keys in a list.
+
