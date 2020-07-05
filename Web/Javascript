@@ -631,3 +631,43 @@ for(let key in usersObj){
 
 Object.keys(obj); // return the keys in a list.
 
+Algorithm Scripting : 
+
+celcuis to farenheit : 
+celcuis * (9/5) + 32 
+
+reverse a string 
+
+str.split('').reverse().join('');
+
+factorial : 
+let result = 1;
+  if(num >=1){
+    for(let i=1;i<=num;i++){
+      result*=i;
+    }
+  }
+return result;
+
+find the longest word in a string : 
+split the string with space -> split(' ') 
+run a loop and get the max length.
+
+return largest number in 2d array : 
+run a loop over array
+use Math.max to find of subArray , pass using spread // Math.max(...arr[i])
+
+to check whether string end with something ? 
+1. .endsWith()
+2. let regex = new RegExp('('+target+'$)', 'i')
+   return regex.test(str);
+
+repeat a string : 
+1. str.repeat(num)
+2. run a loop on num and concat input string eg : result+=str inside loop.
+
+truncate a string : 
+if(str.length>num){
+  return str.substring(0,num)+'...';
+}
+
