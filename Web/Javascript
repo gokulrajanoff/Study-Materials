@@ -644,6 +644,11 @@ Object.keys(obj); // return the keys in a list.
 
 Algorithm Scripting : 
 
+CFL
+String
+RL RE T
+FBCIWSC
+
 celcuis to farenheit : 
 celcuis * (9/5) + 32 
 
@@ -713,4 +718,3 @@ return true.
 
 chuck array to 2d array : 
 slice to get small array from main array and push into main array.
-
