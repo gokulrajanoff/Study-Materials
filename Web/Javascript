@@ -565,6 +565,15 @@ let hello = "   Hello, World!  ";
 let wsRegex = /^(\s+)(.+[^\s])(\s+)$/;
 let result = hello.replace(wsRegex, '$2');
 
+replace second parameter will take:
+replace string
+or
+'$1 $2'
+or function (match){
+  do something on match.
+  return match;
+}
+
 Debugging : 
 
 console.clear()
@@ -592,7 +601,9 @@ splice ()
 
 splice() will modify the array
 slice () wont modify the array and create a new array.
-
+arr.sort((a, b)=>{
+    return a - b;
+  });
 slice(startIndex , UptoIndex[SpecifiedIndex-1])
 
 let fragment = ['to', 'code'];
@@ -649,13 +660,13 @@ let result = 1;
   }
 return result;
 
-find the longest word in a string : 
-split the string with space -> split(' ') 
-run a loop and get the max length.
-
 return largest number in 2d array : 
 run a loop over array
 use Math.max to find of subArray , pass using spread // Math.max(...arr[i])
+
+find the longest word in a string : 
+split the string with space -> split(' ') 
+run a loop and get the max length.
 
 to check whether string end with something ? 
 1. .endsWith()
@@ -670,4 +681,36 @@ truncate a string :
 if(str.length>num){
   return str.substring(0,num)+'...';
 }
+
+Finders Keepers:
+loop array , check if given fn is true , return first true elements.
+
+check of its Boolean : 
+type of variable === 'boolean' 
+
+turn a string into a camelCase: only first letter caps.
+1. match first worst or first word after string.
+return str.toLowerCase().replace(/(^|\s)\w/g,f => f.toUpperCase());
+
+2.split string -> each word  user str.replace(charToReplace,WhatToReplace)
+
+insert one array into another in specific index : 
+use splice to insert using third arguments.
+use slice get a copy of new array instead of direct assignment.
+
+remove all false element in array : 
+if(elemts) -> will check everything null,undefined,NAN,0,false,''
+
+where to insert the element in this array ? 
+check for all the elements less than the number , the total count is the index.
+
+if first string contains all of the letter of second string ? 
+convert both to lowercase
+split second one to array
+run loop over it
+  if any one char not found in first one -> return false.
+return true.
+
+chuck array to 2d array : 
+slice to get small array from main array and push into main array.
 
