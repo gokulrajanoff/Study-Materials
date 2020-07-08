@@ -718,3 +718,63 @@ return true.
 
 chuck array to 2d array : 
 slice to get small array from main array and push into main array.
+
+Object Oriented: 
+IIP
+
+function Dog(name) {
+  this.name = name;
+}
+
+let myCar = new Car();
+myCar instanceof Car // true if not false.
+
+iterate of properites of Object : 
+
+let canary = new Bird("Tweety");
+for(let prop in canary){
+  if(canary.hasOwnProperty(prop))
+  ownProps.push(prop)
+}
+
+Prototype : 
+
+Properties in the prototype are shared among ALL instances of Object.
+if we dont want each object to have the same property.
+
+object’s prototype itself is an object.
+
+Dog.prototype.numLegs=2
+
+add multiple Prototype to Constructor : 
+Bird.prototype = {
+  numLegs: 2, 
+  eat: function() {
+    console.log("nom nom nom");
+  },
+  describe: function() {
+    console.log("My name is " + this.name);
+  }
+};
+
+prototype is not own property
+so hasOwnProperty() will give false to prototype property.
+any object can use the hasOwnProperty method.
+
+manually setting the prototype to a new object. It erases the constructor property!
+
+set constructor Property while adding prototype : 
+
+Dog.prototype = {
+  constructor:Dog,
+  numLegs: 4,
+}
+
+object inherits its prototype directly from the constructor function that created it
+Bird.prototype.isPrototypeOf(duck);
+syntax: constructor.prototype.isPrototypeOf(objectInstance).
+
+Object - > superType for all object in javascript
+
+Dog -> is superType and coco -> is subType.
+
