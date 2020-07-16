@@ -1,0 +1,118 @@
+read question and answer carefully.
+
+CAN SPAM : 
+CAN SPAM act of 2003 -> email is legal or illegal
+1. Accurently identify the sender in header information .
+2. subject line accuretly represnt the email content.
+3. identify the message as advertisement , unless user didn't opt in as subscriber.
+4. include physical mailing address.
+5. provide unsubscribe link. but unsubscribe should not have login or multiple page.
+6. process unsubscribe request within 10 days, operation at 30 days after mailing.
+
+dont sent to person without prior business relationship .
+opt in (COI) process is used so we know sending to user who gave permission.
+
+improve email deliverability : 
+
+1. all subscriber has given u permission.
+    double opt in . submit button and click link in email.
+2. bounce rate greater than 20% , need to deal with it. Data should be fresh, updated.
+eg: user left , email no longer valid , so email bounce.
+
+3.add organization name to subject line , so user recognize us .
+
+4. recognize from name and address.
+
+5.delete old and inactive address.
+    bounces -> hard,soft,block
+
+6. manage frequency and relevancy of content.(weekly monthly digest).
+
+7. authenticate your mail.
+Domain Key , Sender Ids , Sender Policy framework (SPF) (X)
+
+subscriber acquisition methods : 
+1.signup on websites.
+    form , pop ups
+    single opt in or double opt in.
+
+2. socialmedia .
+3. mobile opt in 
+4.stores
+5.customer serivce.
+6.tradeshows/events.
+
+best practice to interact with subscribes : 
+dont force subscribe 
+signup form prominent.
+opt in form -> shirt.
+
+Incentives : 
+avoid overrich Incentives
+deliver incentive to email directly.
+
+onboarding : 
+pre welcome user
+welcome email.
+
+email frequency : 
+set expetations
+convery message when image is blocked. 
+content above the fold,eg: main content should be seen without need to scroll.
+
+use personal message:
+good default content , use personalization and dynamic content.
+
+value proposition : clear 
+
+Email Message design : 
+
+design 600pixel by 3 inches. 
+make link look like links
+minimize image , copy and text,spam words. 
+easy unsubscribe.
+personalize subject and content .
+
+max time to see email -> 3 seconds.
+
+Mobile : 
+Name (25)
+subject(35)
+preHeader (85)
+
+have clear call to action in any environment.
+
+responsive design and mobile aware.
+single layout -> work all environment.
+
+responsive deisng : 2 or more version.
+optimized for particular screen resolution .
+
+tesitng tools : 
+1.A/B Testing : 
+
+2.content detective : 
+mirror spam filters
+find potential problem and solution
+check content in english
+dont scan html code
+
+3.validation : 
+check for unsubscribe link , physical address
+check field syntax.
+Proper AMP script and content launguage
+
+4.send preview : 
+
+5. test preview :
+5 receipients 
+
+Content builder : 
+store ,visualize ,manage
+
+share folder and contents -> read it.
+
+all marketing cloud has a master -> all subscriber list
+
+if no primary key , only we can overwrite.
+
