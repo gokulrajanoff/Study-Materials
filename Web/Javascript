@@ -720,7 +720,9 @@ chuck array to 2d array :
 slice to get small array from main array and push into main array.
 
 Object Oriented: 
-IIP
+Instance Iterate Prototype Inheritance mixins closure IIFE
+IIPIMCI
+
 
 function Dog(name) {
   this.name = name;
@@ -778,3 +780,71 @@ Object - > superType for all object in javascript
 
 Dog -> is superType and coco -> is subType.
 
+prototype is like the "recipe" for creating an object
+
+different way to declare the instance : 
+let animal = new Animal();
+let animal = Object.create(Animal.prototype); //less disavantage if we are using inheritance.
+
+Bird.prototype = Object.create(Animal.prototype);
+
+now bird will have all the properties of Animal.
+
+if we inherit like this , constructor will be changed
+so manually set the constructor back
+Bird.prototype.constructor = Bird;
+
+we can override the inherit property.
+but simply 
+Bird.prototype.fly = ()=>{return 'its a override'}
+
+Mixin  -> Add Common Behavior Between Unrelated Objects
+like bird can fly and plance can fly , but they are unrelated
+
+its take object and add the common fucntion to whatever it receives.
+
+let glideMixin = (object)=>{
+  object.glide = ()=>{
+    console.log('lets glide')
+  }
+}
+glideMixin(bird)
+glideMixin(boat)
+
+Closure : 
+In JavaScript, a function always has access to the context in which it was created.
+This is called closure.
+
+eg: 
+function Bird() {
+  let weight = 15;
+
+  this.getWeight = ()=>{
+    return weight;
+  }
+
+}
+now weight is a private variable on;y getWeight can access it.
+
+Immediately Invoked Function Expression (IIFE)
+(
+  ()=>{console.log("A cozy nest is ready");}
+)()
+
+this function has no name , not saved in variable , but invoked immediately.
+
+IIFE to Create a Module
+
+let module = (
+  ()=>{
+    return {
+      mixing1:function(obj){
+        obj.fly = function(){
+          return 'fly man'
+        }
+      }
+    }
+  }
+)();
+
+module.mixing1(plane);
