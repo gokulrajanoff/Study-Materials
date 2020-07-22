@@ -848,3 +848,73 @@ let module = (
 )();
 
 module.mixing1(plane);
+
+
+Functional Programming : 
+
+In JavaScript, all functions are first class functions.
+first class functions -> assigned to variables, passed or returned from function.
+higher order functions-> function which take or return a function.
+lambda -> fn that are passed and returned to another function.
+
+implement out own Methods : 
+
+Array.prototype.myMap = function(callback){
+  var newArray = [];
+  // Only change code below this line
+  for(let i=0;i<this.length;i++){
+    newArray.push(callback(this[i]))
+  }
+  // Only change code above this line
+  return newArray;
+
+};
+
+this to get accept the variable that is calling this method.
+
+concate array : 
+original.concat(attach)
+
+can replace push with concat
+
+sorting alphabetically: 
+return arr.sort(function(a, b) {
+    return a===b?0:a<b?-1:1;
+});
+
+use Regular expression to split : 
+var otherString = "How9are7you2today";
+var byDigits = otherString.split(/\d/);
+// Sets byDigits to ["How", "are", "you", "today"]
+
+split by space or punctuation:
+str.split(/\s|\W/)
+
+every() is to check if all the elements in array meet condition : 
+var numbers = [1, 5, 8, 0, 10, 11];
+numbers.every(function(currentValue) {
+  return currentValue < 10;
+});
+// Returns false
+
+some() to check if any one elem in array meet condition
+
+var numbers = [10, 50, 8, 220, 110, 11];
+numbers.some(function(currentValue) {
+  return currentValue < 10;
+});
+// Returns true
+
+currying function : 
+function curried(x) {
+  return function(y) {
+    return x + y;
+  }
+}
+
+curried(1)(2)
+
+upto 2 decimal precision 
+let ar = 5.454545645664
+ar = Math.round(ar * 100) / 100;
+console.log(ar)
