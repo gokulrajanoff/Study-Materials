@@ -17,3 +17,57 @@ personal identifiable information (PII)–for example, customer ID, email
 Use and track your progress with SMART (specific, measurable, attainable, realistic, and timely) objectives.
 
 
+Email studio:
+
+set email as default login : userName->cloud preference -> default login preference -> email.
+
+A/B testing to see what content or parameters (emails, subject lines,preheaders,send dates/times, from names, content blocks)(6)
+
+Admin tab -> account information ,security , physical mail in email footer 
+
+Setup : Platform tools : feature settings : email studio
+
+From Address Management:
+Importing multiple addresses is ideal for accounts that use AMPscript in Sender Profiles to create dynamic From addresses in email sends
+
+Send Classifications : 
+parameters in central location and reuse those parameters
+eg : sender profile, delivery profile, and CAN-SPAM classification.
+
+Reply Mail Management (RMM):
+RMM can process the reply automatically, if appropriate, or forward the message if it requires personal review. 
+part help fro ISP is needed to Setup
+
+URL Expiration:
+when expired and where to redirect
+
+
+Settings > Company Settings > account settings:
+default timezone and culture code : default CST and en-US
+
+Physical Address: is must needed for CAN--SPAM
+
+Authenticated Domains:
+confirm the purchase of Sender Authentication Package and additional Private Domains
+verified as sendable domains and display as authenticated domains.
+
+giving users access to Email Studio? 
+Roles
+Permissions
+
+With permissions, your choices are: Allow  , deny  , not set(same as deny)
+
+Roles, on the other hand, are a set of either predefined or custom permissions.
+
+can apply both role ad permission.
+
+how to apply roles -> user screen > manage roles , edit roles -> select roles and save.
+
+domain verification ? 
+purchase a Sender Authentication Package (SAP) or a Private Domain,
+Marketing Cloud automatically authenticates the Email Reply Address (or Account Default) during provisioning.
+
+cannot send emails from email addresses with the status (verify, pending, or not verified)
+
+ OMM begins bundling the emails in batches of 500 and sending them to the subscribers' inboxes.
+
