@@ -71,3 +71,35 @@ cannot send emails from email addresses with the status (verify, pending, or not
 
  OMM begins bundling the emails in batches of 500 and sending them to the subscribers' inboxes.
 
+CAN - SPAM : 
+
+imposes stricter requirements on Commercial email than on Transactional email
+
+commerical email meeting criteria: 
+1.subject line should represent the email content.
+2.identify Sender in header info
+3.identify as advertisement 
+4.include physical mail address.
+5.give unsubsribe link , in a single page.
+6. respect the unsubsribe , process it within 10 days and its should be working for atlest 30 days.
+
+ transactional mail creteria -> identify the sender in the header information.
+
+ transactional message dont respect unsubsribe, we can still send transaction mail
+
+ can have send classification for transaction and commercial email and associate with them respectively .
+
+ while creating transaction send classification we can respect unsubscribe if we want , or we can have multiple 
+ transaction send classification.
+
+ How OMM send email 
+ 1.analyse the email 
+ dont create email, only prepares .email(template or html)  subscribers (list,group,dataextension) , personal or dynamic contnet
+ 2.build email structure
+ head , body, footer -> get subject line , body content ,amp script(get images) 
+ 3.analyse subsribers 
+ run content agaist subscribers , get content for each subscribers . its a placeholder 
+ 4.build and send email
+ bundle into batch of 500 and send.
+
+ 
