@@ -125,3 +125,37 @@ ACTION-ORIENTED (begin with verb -> download , save )
 CLEAR AND PREDICTABLE 
 LIMITED AND VISIBLE (have 1 or 2 CTA )
 
+three types of unsubscribes.
+Global - they unsubscribe from every email sent from Marketing Cloud. 
+If you can't determine why a certain subscriber didn't receive your email, they may be on the global unsubscribe list.
+
+Master - master, or account-level, unsubscribe, customers choose to unsubscribe from emails sent by a given company
+
+List :  you’re subscribed to the company Cloud Kicks’ monthly newsletter and weekly specials emails.
+You like the monthly newsletter, but you no longer want to receive the weekly specials.
+you unsubscribe from just the weekly specials list.
+
+
+Email deliverability : 
+ISP show only from address , so keep org name in from address and subject line.
+
+Bounch rate should be less than 20 %  else ip will be blocked
+
+purge old , inactive , unopened emails. 
+
+spam filters : 
+logic -> content , keywords based , email volume , consumer complaints 
+also score basics -> parameters (content , volume, response and sender)
+
+inbound sales call are the most effective to get new subscribers 
+
+Single Opt-In Versus Double Opt-In
+single opt in -> enter keyword and sign up
+double opt in -> enter keyword and email -> open email to confirm it.(avoid typo)
+
+Dont force user to subscriber -> give incentives, prominent sign up link , simple form.
+Welcome programs can create some of the highest open and click rates of any email messaging.
+
+Important message should in text , if image got blocked , keep it top above the fold. so no need to scroll.
+
+
