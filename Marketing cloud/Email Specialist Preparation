@@ -158,4 +158,49 @@ Welcome programs can create some of the highest open and click rates of any emai
 
 Important message should in text , if image got blocked , keep it top above the fold. so no need to scroll.
 
+General Data Privacy Regulation (GDPR).
+business collects, stores, or uses personal information about European residents, 
+then the GDPR can have a profound impact on your business processes.
+
+key terms
+Data Subject - person 
+Personal Data - data about person
+Sensitive Personal Data - race, religion,politics , sex  , health , biometric
+Processing - done with personal data
+Controller - institution who get data from person eg: bank
+Processor - process data based on controller instruction eg : Salesforce
+Pseudonymous Data - eg :ipaddress  . needed additional information to tie to person
+Anonymous Data = cant be connected to person
+
+Basics of data processing : 
+organizations must obtain the consent of a data subject
+data subjects must agree via a clear statement or affirmative action.
+dont process beyound consent thats necessary for providing sevice.
+
+Compliance obligations:
+data cotroller report data breach to data protection authority before 72 hours.
+
+Data protection officer:
+appoint DP office if org process sensitive data on latger scale or monitor data subject regularly.
+
+Enforcement: 
+fine upto 20 million or 4 percent of annual global revenue.
+
+Use of processors:
+Data controllers must have written agreements with data processors
+
+Profiling:
+certain restrictions on the automated processing of personal data (profiling)
+
+cross-border transfers of personal data : 
+adherence to association codes of conduct or 
+data protection certification programs approved by regulators can also be acceptable transfer mechanisms.
+
+one stop shop : 
+if company span multiple countries 
+work with a lead supervisory authority for cross-border data protection issues.
+
+
+Data subject rights: 
+full right of data.
 
