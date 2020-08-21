@@ -204,3 +204,74 @@ work with a lead supervisory authority for cross-border data protection issues.
 Data subject rights: 
 full right of data.
 
+Fairness and Transparency principle of GDPR 
+process personal data lawfully, fairly, and in a transparent manner.
+describe such tracking in a privacy notice
+
+Purpose Limitation principle of GDPR 
+collect personal data only for specified, explicit, and legitimate purposes
+dont process further than the purpose.
+
+Data Minimization principle of GDPR 
+collect only personal data that’s adequate, relevant, and limited to what’s necessary for the intended purpose.
+
+Accuracy principle of GDPR 
+Personal data must be accurate and  kept up to date.
+
+Data Deletion principle of GDPR 
+Personal data must be kept only for as long as it’s needed to fulfill the original purpose of collection.
+
+Security principle of GDPR 
+use tech and org level security to protect personal data.
+
+the use of 
+data segregation, 
+encryption, 
+pseudonymization, 
+and anonymization is recommended, and in some cases required, to help protect personal data.
+
+Encryption measure 
+law encourages encryption as an effective way to help ensure the security and confidentiality of personal data.
+
+Pseudonymization measure
+use pseudonymization as risk-based measure to protect data security and the rights of individuals. 
+pseudonymization may constitute a sufficient safeguard against risks from profiling.
+also  enable organizations the use of data beyond the original purpose.
+
+Anonymization measure
+the data does not constitute personal data under the GDPR.
+It must be impossible for any individual to be identified from the data
+
+Accountability principle of GDPR:
+data controller is responsible handlig personal data in compliance with GDPR
+keeping a record of processing activities and conducting privacy impact assessments.
+1. appoint Data protection officer
+
+methods to operationalize privacy principles into their culture.
+1.Privacy by Design
+when planing a new processing activity or develop or implement a new product, service, or feature,
+
+2. Privacy by Default
+use the most “privacy friendly” default settings when collecting, processing, or storing data.
+shortest possible retention period.
+the least amount of processing
+
+3.Data Protection Impact Assessments
+Analyses of new processing activities to identify and address privacy risks.
+
+Individual Rights principle of GDPR:
+
+Data Access: Data subjects have the right to confirm to controller in processig personal data.
+Right to Object: object at any time to the processing of their personal data, especially in marketing.
+Data Rectification: request  controller correct or complete personal data
+Restriction of Processing: request that a controller stop access to and modification of their personal data
+Data Portability: ask a controller to provide their personal data in a structured forat PDF
+Right to Erasure: Also known as “the right to be forgotten : delete or remove their personal data 
+
+US Privacy law :
+Health Insurance Portability and Accountability Act (HIPAA)
+Department of Health and Human Services (HHS) issued the Privacy, Security, and Breach Notification Rules to protect 
+protected health information, or PHI
+
+HHS also created the Office of Civil Rights and granted it the authority and responsibility to enforce these rules,
+
