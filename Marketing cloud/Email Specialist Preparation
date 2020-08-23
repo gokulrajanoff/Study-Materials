@@ -275,3 +275,74 @@ protected health information, or PHI
 
 HHS also created the Office of Civil Rights and granted it the authority and responsibility to enforce these rules,
 
+Consumer reporting agency (CRA):
+create and maintains consuer report for 3rd party
+
+Consumer report:
+report given by CRA to establish the creditworthiness of indiviual to get loan
+
+Investigative consumer report:
+report obtained by interviewing  indiviual acquintace about his chatacter.
+
+User:
+purchase report from CRA
+
+Furnisher:
+gives CRA credit history information to be used in consuer report.
+
+Fair Credit Reporting Act (FCRA):
+CRA and USER obey FCRA -> ensure correct , accurate information also securely protect them.
+user get report only for specific purpose.
+CRA -> gives notice to User about permissble purpose of reports.
+if user decide negative -> notify CRA and customer(include CRA details , right to access info and dispute accuracy)
+
+Fair and Accurate Credit Transactions Act (FACTA)
+the Disposal Rule:
+user should delete data in a way , so no misuse of data happens.
+
+Red Flags Rule:
+develop rules that mandate the detection, prevention, and mitigation of identity theft. 
+financial institutions -> implement a written program to detect and respond to potential identity theft red flags.
+
+
+Gramm-Leach-Bliley Act (GLBA):
+imposed on financial institutions with regard to the use and disclosure of their 
+customers’ nonpublic, personally identifiable financial information.
+
+what can be a  nonpublic, personally identifiable financial information ? 
+given by customer to financial institution
+obtained by finanacial institution
+result of transaction
+
+GLBA - Financial Privacy Rule
+give initial and annual privacy notices to their customers about info colletion , protection and sharing and opt out way.
+
+New York Department of Financial Services Cybersecurity Regulations:NYDFS
+protect growing threat of cyber-attacks. 
+company must have a have a chief information security officer and other personnel who develop and manage a cybersecurity program
+
+The California Online Privacy Protection Act (CalOPPA):
+website collect california resident data u must aide by this law.
+the posted privacy policy must list the categories of information the website collects, 
+the third parties who may receive the information,
+and the process (if any) for the visitor to review and amend the information. 
+
+The Shine the Light Act:
+regulating the sharing of individuals’ personal information for marketing purposes.
+for-profit companies must disclose any personal information they share with third parties, and who those third parties are if request
+Businesses are exempt if they have a public privacy policy outlining rights and opt in opt out procedure.
+
+The Song-Beverly Credit Card Act
+retailers and other businesses cannot ask a customer for personal identification information during a credit card transaction. 
+
+CCPA :
+rights
+we can access, opt out of sales of information (not opt out of collecting inforation)[Do Not Sell My Personal Information-link in sites]
+right to notice , right to delete.
+right of equal services and pricing
+
+Businesses must respond to rights requests within 45 days and 
+disclose and deliver the appropriate information and take the necessary action requested by the Consumer. 
+
+salesforce has DPA (data processing addendum) signed with customer , that ake them coply with CCPA .
+
