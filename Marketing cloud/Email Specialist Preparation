@@ -445,3 +445,15 @@ Consider consumer behavior
 Look at the overall aesthetics - preview the design and make sure all the different elements mesh well together.
 Keep track of what works
 
+
+Email Design : 
+CSS3 media queries are added to the email to detect screen size.
+Be navigation-friendly.(Do not use hover, mouseover)
+Analyse and Test email :
+demographic data : personal attribute that might have been collected on a signup form.
+Behavioral data: purchase history, downloads, browsing activity, email opens, and more
+Contextual data: deliver experiences in the moment an email is opened. 
+    This includes information about a subscriber’s device, location, date, time, current store inventory, and more.
+New subscribers are a great testing group
+
+Distriuted marketing administration : 
